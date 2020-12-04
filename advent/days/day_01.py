@@ -55,7 +55,6 @@ def _three_sum(nums, k):
 
 
 def main():
-    f = load_input()
-    nums = [int(n) for n in f]
+    nums = [int(n) for n in load_input()]
     k = 2020
     return prod(_two_sum(nums, k)), prod(_three_sum(nums, k))

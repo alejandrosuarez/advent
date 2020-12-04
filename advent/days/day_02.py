@@ -53,13 +53,10 @@ from advent.util import load_input
 
 
 def _validate(line):
-    rgx = r"(\d+)-(\d+) ([a-z]): ([a-z]+)"
+    rgx = r"^(\d+)-(\d+) ([a-z]): ([a-z]+)$"
     lo, hi, c, p = match(rgx, line).groups()
     lo, hi = int(lo), int(hi)
-    pt1 = lo <= p.count(c) <= hi
-    pt2 = (p[lo - 1] == c) ^ (p[hi - 1] == c)
-
-    return 1 if pt1 else 0, 1 if pt2 else 0
+    return lo <= p.count(c) <= hi, (p[lo - 1] == c) ^ (p[hi - 1] == c)
 
 
 def main():

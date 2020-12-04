@@ -119,8 +119,7 @@ def _pt2(grid):
             trees[p] += 1
 
         x, y = paths_xy[p]
-        nr, nc = r + y, (c + x) % n
-        stack.append((p, nr, nc))
+        stack.append((p, r + y, (c + x) % n))
 
     return prod(trees)
 
