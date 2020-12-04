@@ -91,37 +91,21 @@ from advent.util import load_input
 OPEN, TREE = ".", "#"
 
 
-def _pt1(grid):
+def _pt1(grid, x=3, y=1):
     count = r = c = 0
     m, n = len(grid), len(grid[0])
 
     while r < m:
         if grid[r][c] == TREE:
             count += 1
-        r, c = r + 1, (c + 3) % n
+        r, c = r + y, (c + x) % n
 
     return count
 
 
 def _pt2(grid):
     paths_xy = [(1, 1), (3, 1), (5, 1), (7, 1), (1, 2)]
-    trees = [0] * len(paths_xy)
-    stack = [(i, 0, 0) for i in range(len(paths_xy))]
-    m, n = len(grid), len(grid[0])
-
-    while stack:
-        p, r, c = stack.pop()
-
-        if r >= m:
-            continue
-
-        if grid[r][c] == TREE:
-            trees[p] += 1
-
-        x, y = paths_xy[p]
-        stack.append((p, r + y, (c + x) % n))
-
-    return prod(trees)
+    return prod(_pt1(grid, *p) for p in paths_xy)
 
 
 def main():
