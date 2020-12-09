@@ -97,16 +97,11 @@ Your puzzle answer was 16107959.
 Both parts of this puzzle are complete! They provide two gold stars: **
 """
 
-from collections import deque
+from collections import deque, defaultdict
 from advent.util import input_lines
 
 
 def _pt1(nums, preamble):
-    """
-    maintain rolling compliments dict and deque with numbers in
-    order of insertion for removal from compliments dict
-    """
-
     q = deque(nums[:preamble])
     compliments = {n: i for i, n in enumerate(nums[:preamble])}
 
@@ -127,45 +122,17 @@ def _pt1(nums, preamble):
 
 
 def _pt2(nums, k):
-    """
-    maintain rolling sum, adding each number as we go
-    when sum becomes larger than target (k), remove
-    numbers off the front of the window and advance
-    the window start position
-    while we're doing this, maintain max and min of rolling
-    window using 2 deques
-    when we find window that sums to target, we already know
-    max and min. return sum of those two
-    """
+    sums, rolling = {}, 0
 
-    start, rolling = 0, nums[0]
-    minq, maxq = deque(), deque()
+    for i, n in enumerate(nums):
+        rolling += n
 
-    for end in range(1, len(nums)):
-        num = nums[end]
-        rolling += num
+        if rolling - k in sums:
+            s = sums[rolling - k]
+            sub = nums[s + 1 : i + 1]
+            return max(sub) + min(sub)
 
-        while maxq and num >= nums[maxq[-1]]:
-            maxq.pop()
-
-        while minq and num <= nums[minq[-1]]:
-            minq.pop()
-
-        maxq.append(end)
-        minq.append(end)
-
-        while end - start + 1 >= 2 and rolling >= k:
-            if rolling == k:
-                return nums[minq[0]] + nums[maxq[0]]
-
-            rolling -= nums[start]
-            start += 1
-
-            if minq and minq[0] < start:
-                minq.popleft()
-
-            if maxq and maxq[0] < start:
-                maxq.popleft()
+        sums[rolling] = i
 
 
 def main():
