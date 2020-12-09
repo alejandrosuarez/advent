@@ -106,7 +106,6 @@ when cycle is detected, backtrack and swap command (pt2)
 """
 
 from advent.util import load_input
-from advent.vm import VM, Instruction
 
 ACC, JMP, NOP = "acc", "jmp", "nop"
 VISITING, VISITED = 1, 2
@@ -143,49 +142,5 @@ def main():
 
     _, pt1 = _dfs(0, 0, ins, [0] * len(ins), False)
     _, pt2 = _dfs(0, 0, ins, [0] * len(ins), True)
-    pt1_vm = _with_vm(ins)
 
-    return pt1, pt2, pt1_vm
-
-
-def _with_vm(ins):
-    def cycle_prevention(func):
-        def wrapper(vm: VM, args: list):
-            if args[1] in vm.local["executed"]:
-                vm.cursor = len(vm.instructions)
-                return
-            func(vm, args)
-            vm.local["executed"].add(args[1])
-
-        return wrapper
-
-    @cycle_prevention
-    def acc(vm: VM, args: list):
-        vm.local["acc"] += args[0]
-        vm.cursor += 1
-
-    @cycle_prevention
-    def nop(vm: VM, args: list):
-        vm.cursor += 1
-
-    @cycle_prevention
-    def jmp(vm: VM, args: list):
-        vm.cursor += args[0]
-
-    table = {
-        "acc": Instruction("acc", 1, acc),
-        "jmp": Instruction("jmp", 1, jmp),
-        "nop": Instruction("nop", 1, nop),
-    }
-
-    vm = VM(instruction_table=table)
-
-    vm.local["acc"] = 0
-    vm.local["executed"] = set()
-
-    for i, (name, arg) in enumerate(ins):
-        vm.instructions.append((name, [int(arg), i]))
-
-    vm.run()
-
-    return vm.local["acc"]
+    return pt1, pt2
