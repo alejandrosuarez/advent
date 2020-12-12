@@ -1,1 +1,5 @@
+black
+pytest
+mypy
+pylint
 shapely

@@ -4,9 +4,7 @@ from re import sub
 
 
 def load_input(caller=None):
-    dir_path = path.dirname(path.realpath(__file__))
     caller = stack()[1].filename if not caller else caller
-    day = path.basename(caller).split(".")[0]
     input_path = sub(r"\.py", ".txt", caller)
 
     return open(input_path, "r")
