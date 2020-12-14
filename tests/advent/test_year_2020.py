@@ -17,6 +17,9 @@ F11""".splitlines()
 
 def test_day_13():
     lines = "939\n7,13,x,x,59,x,31,19".splitlines()
-    pt1 = day_13.pt1(lines)
 
+    pt1 = day_13.pt1(lines)
     assert pt1 == 295
+
+    pt2 = day_13.pt2(lines)
+    assert pt2 == 1068781
