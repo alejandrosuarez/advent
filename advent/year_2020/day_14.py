@@ -112,6 +112,16 @@ from collections import defaultdict
 from typing import NamedTuple, Tuple, List
 from advent.util import load_input
 
+TEST1 = """mask = XXXXXXXXXXXXXXXXXXXXXXXXXXXXX1XXXX0X
+mem[8] = 11
+mem[7] = 101
+mem[8] = 0"""
+
+TEST2 = """mask = 000000000000000000000000000000X1001X
+mem[42] = 100
+mask = 00000000000000000000000000000000X0XX
+mem[26] = 1"""
+
 
 def pt1(instructions):
     mem = defaultdict(int)
@@ -162,4 +172,10 @@ def _parse(s):
 
 def main():
     i = _parse(load_input().read())
-    return pt1(i), pt2(i)
+    t1 = pt1(_parse(TEST1))
+    t2 = pt2(_parse(TEST2))
+
+    assert t1 == 165
+    assert t2 == 208
+
+    return t1, t2, pt1(i), pt2(i)

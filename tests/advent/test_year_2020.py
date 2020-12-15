@@ -23,21 +23,3 @@ def test_day_13():
 
     pt2 = day_13.pt2(lines)
     assert pt2 == 1068781
-
-
-def test_day_14():
-    s = """mask = XXXXXXXXXXXXXXXXXXXXXXXXXXXXX1XXXX0X
-mem[8] = 11
-mem[7] = 101
-mem[8] = 0"""
-
-    pt1 = day_14.pt1(s)
-    assert pt1 == 165
-
-    s = """mask = 000000000000000000000000000000X1001X
-mem[42] = 100
-mask = 00000000000000000000000000000000X0XX
-mem[26] = 1"""
-
-    pt2 = day_14.pt2(s)
-    assert pt2 == 208
