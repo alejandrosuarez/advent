@@ -4,3 +4,4 @@ pytest
 mypy
 pylint
 shapely
+python-sat
