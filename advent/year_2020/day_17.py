@@ -437,27 +437,27 @@ ACTIVE, INACTIVE = 1, 0
 MAPPING = {"#": ACTIVE, ".": INACTIVE}
 
 
-def _next_state(grid, dimensions, directions):
-    pads = tuple((1, 1) for _ in range(dimensions))
+def _next_state(grid, dims, dirs):
+    pads = tuple((1, 1) for _ in range(dims))
     grid = np.pad(grid, pads, "constant", constant_values=INACTIVE)
     last = grid.copy()
     shape = last.shape
 
-    for coords, cell in np.ndenumerate(grid):
-        idx = [[c + d[j] for j, c in enumerate(coords)] for d in directions]
-        active = 0
+    def neighbors(coords):
+        for ncoords in [[c + d[j] for j, c in enumerate(coords)] for d in dirs]:
+            if all(0 <= ncoords[i] < shape[i] for i in range(dims)):
+                yield tuple(ncoords)
 
-        for ncoords in idx:
-            if all(0 <= ncoords[i] < shape[i] for i in range(dimensions)):
-                if last[tuple(ncoords)] == ACTIVE:
-                    active += 1
+    for coords, cell in np.ndenumerate(grid):
+        coords = tuple(coords)
+        active = sum(1 for n in neighbors(coords) if last[n] == ACTIVE)
 
         if cell == ACTIVE:
             if active not in {2, 3}:
-                grid[tuple(coords)] = INACTIVE
+                grid[coords] = INACTIVE
         else:
             if active == 3:
-                grid[tuple(coords)] = ACTIVE
+                grid[coords] = ACTIVE
 
     return grid
 
@@ -480,12 +480,44 @@ def _count_active(grid):
     return (grid == ACTIVE).sum()
 
 
+def _visualize(orig_frames):
+    size = orig_frames[-1].shape
+    frames = []
+
+    for i, f in enumerate(orig_frames):
+        pads = tuple((size[j] - i, size[j] - i) for j in range(3))
+        frames.append(np.pad(f, pads, "constant", constant_values=INACTIVE))
+
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection="3d", title="conway's cubes")
+    grid = frames[0]
+    coords = np.where(grid == ACTIVE)
+    sct = ax.scatter(*coords, s=40, c="black", marker="h", alpha=1)
+
+    def animate(i, frames, sct):
+        coords = np.where(frames[i] == ACTIVE)
+        sct._offsets3d = coords
+        return sct
+
+    anim = FuncAnimation(
+        fig,
+        animate,
+        frames=len(frames) - 1,
+        fargs=(frames[1:], sct),
+        interval=10,
+    )
+
+    plt.show()
+
+
 def _pt1(grid):
-    return _count_active(_game_of_life(grid)[-1])
+    frames = _game_of_life(grid)
+    return _count_active(frames[-1])
 
 
 def _pt2(grid):
-    return _count_active(_game_of_life(grid, dimensions=4)[-1])
+    frames = _game_of_life(grid, dimensions=4)
+    return _count_active(frames[-1])
 
 
 def main():
