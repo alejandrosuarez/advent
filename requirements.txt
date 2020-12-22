@@ -7,3 +7,4 @@ shapely
 python-sat
 matplotlib
 lark
+scipy
