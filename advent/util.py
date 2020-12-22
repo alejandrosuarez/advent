@@ -10,7 +10,7 @@ def load_input(caller=None):
     return open(input_path, "r")
 
 
-def read_input(caller):
+def read_input(caller=None):
     caller = stack()[1].filename if not caller else caller
     return load_input(caller).read()
 
