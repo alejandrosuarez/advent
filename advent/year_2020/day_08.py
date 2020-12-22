@@ -105,7 +105,7 @@ when cycle is detected terminate dfs (pt1)
 when cycle is detected, backtrack and swap command (pt2)
 """
 
-from advent.util import load_input
+from advent.tools import *
 
 ACC, JMP, NOP = "acc", "jmp", "nop"
 VISITING, VISITED = 1, 2
@@ -138,7 +138,7 @@ def _dfs(pos, acc, ins, color, fix):
 
 
 def main():
-    ins = [l.split(" ") for l in load_input().read().splitlines()]
+    ins = [l.split(" ") for l in afs.input_lines()]
 
     _, pt1 = _dfs(0, 0, ins, [0] * len(ins), False)
     _, pt2 = _dfs(0, 0, ins, [0] * len(ins), True)

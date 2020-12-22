@@ -125,9 +125,7 @@ Your puzzle answer was 535296695251210.
 Both parts of this puzzle are complete! They provide two gold stars: **
 """
 
-
-from numpy import lcm
-from advent.util import input_lines
+from advent.tools import *
 
 
 def pt1(lines):
@@ -148,7 +146,7 @@ def pt2(lines):
             if (ts + i) % b == 0:
                 break
             ts += step
-        step = lcm(step, b)
+        step = np.lcm(step, b)
 
     return ts
 
@@ -160,5 +158,5 @@ def _parse_lines(lines):
 
 
 def main():
-    lines = input_lines()
+    lines = afs.input_lines()
     return pt1(lines), pt2(lines)

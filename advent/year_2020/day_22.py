@@ -2,7 +2,6 @@
 """
 
 from advent.tools import *
-from advent.util import read_input
 
 TEST = """Player 1:
 9
@@ -39,5 +38,5 @@ def _parse(r):
 
 def main():
     t = _parse(TEST.split("\n\n"))
-    s = _parse(read_input().split("\n\n"))
+    s = _parse(afs.read_input().split("\n\n"))
     return _pt1(t), _pt1(s)

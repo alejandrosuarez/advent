@@ -58,7 +58,6 @@ Both parts of this puzzle are complete! They provide two gold stars: **
 """
 
 from advent.tools import *
-from advent.util import input_lines
 from scipy.sparse import csr_matrix
 from scipy.sparse.csgraph import maximum_bipartite_matching as match
 
@@ -123,6 +122,6 @@ sqjhc mxmxvkd sbzzf (contains fish)"""
 
 def main():
     t = _parse(TEST.splitlines())
-    s = _parse(input_lines())
+    s = _parse(afs.input_lines())
 
     return _pt1(t), _pt1(s), _pt2(t), _pt2(s)

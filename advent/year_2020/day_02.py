@@ -48,16 +48,15 @@ How many passwords are valid according to the new interpretation of the policies
 Your puzzle answer was 413.
 """
 
-from re import match
-from advent.util import load_input
+from advent.tools import *
 
 
 def _validate(line):
     rgx = r"^(\d+)-(\d+) ([a-z]): ([a-z]+)$"
-    lo, hi, c, p = match(rgx, line).groups()
+    lo, hi, c, p = re.match(rgx, line).groups()
     lo, hi = int(lo), int(hi)
     return lo <= p.count(c) <= hi, (p[lo - 1] == c) ^ (p[hi - 1] == c)
 
 
 def main():
-    return list(map(sum, zip(*map(_validate, load_input()))))
+    return list(map(sum, zip(*map(_validate, afs.load_input()))))

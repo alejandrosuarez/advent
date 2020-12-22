@@ -65,15 +65,14 @@ Your puzzle answer was 37385.
 Both parts of this puzzle are complete! They provide two gold stars: **
 """
 
-from collections import deque, defaultdict
-from advent.util import input_lines
+from advent.tools import *
 
 TEST = "0,3,6"
 
 
 def pt1(arr, n=2020):
     start = len(arr)
-    turns = defaultdict(deque)
+    turns = cl.defaultdict(cl.deque)
     last = arr[-1]
 
     for i, m in enumerate(arr):
@@ -96,5 +95,5 @@ def pt2(arr):
 
 def main():
     parse = lambda s: list(map(int, s.split(",")))
-    l, t = parse(input_lines()[0]), parse(TEST)
+    l, t = parse(afs.input_lines()[0]), parse(TEST)
     return pt1(t), pt1(l), pt2(t), pt2(l)

@@ -97,12 +97,11 @@ Your puzzle answer was 16107959.
 Both parts of this puzzle are complete! They provide two gold stars: **
 """
 
-from collections import deque, defaultdict
-from advent.util import input_lines
+from advent.tools import *
 
 
 def _pt1(nums, preamble):
-    q = deque(nums[:preamble])
+    q = cl.deque(nums[:preamble])
     compliments = {n: i for i, n in enumerate(nums[:preamble])}
 
     for i in range(preamble, len(nums)):
@@ -136,7 +135,7 @@ def _pt2(nums, k):
 
 
 def main():
-    nums = [int(i) for i in input_lines()]
+    nums = [int(i) for i in afs.input_lines()]
 
     pt1 = _pt1(nums, 25)
     pt2 = _pt2(nums, pt1)

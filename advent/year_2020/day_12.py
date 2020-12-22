@@ -74,20 +74,15 @@ Your puzzle answer was 29839.
 Both parts of this puzzle are complete! They provide two gold stars: **
 """
 
-from typing import NamedTuple, Tuple, List
-from enum import Enum
-from dataclasses import dataclass
-from re import match
-from math import sin, cos, radians
-from advent.util import input_lines
+from advent.tools import *
 
 
-class Instruction(NamedTuple):
+class Instruction(t.NamedTuple):
     action: str
     value: int
 
 
-@dataclass
+@dc.dataclass
 class Ship:
     coords = (0, 0)
     facing = "E"
@@ -102,13 +97,13 @@ class Ship:
         self.facing = self._next_facing(ins)
         self._move(*self._next_move(ins))
 
-    def manhattan_distance(self, coords: Tuple[int, int] = (0, 0)) -> int:
+    def manhattan_distance(self, coords: t.Tuple[int, int] = (0, 0)) -> int:
         return abs(self.coords[0] - coords[0]) + abs(self.coords[1] - coords[1])
 
     def _move(self, d: str, v: int):
         self.coords = self.dirs[d](self.coords, v)
 
-    def _next_move(self, ins: Instruction) -> Tuple[str, int]:
+    def _next_move(self, ins: Instruction) -> t.Tuple[str, int]:
         if ins.action in {"L", "R"}:
             return self.facing, 0
         if ins.action == "F":
@@ -147,20 +142,20 @@ class WaypointShip(Ship):
         self.waypoint_offset = self.dirs[d](self.waypoint_offset, v)
 
     def _rotate_waypoint(self, d: str, v: int):
-        rot = radians(-v if d == "R" else v)
+        rot = math.radians(-v if d == "R" else v)
         wp, c = self._waypoint, self.coords
-        sr, cr, ax, ay = sin(rot), cos(rot), wp[0] - c[0], wp[1] - c[1]
+        sr, cr, ax, ay = math.sin(rot), math.cos(rot), wp[0] - c[0], wp[1] - c[1]
         nx, ny = c[0] + cr * ax - sr * ay, c[1] + sr * ax + cr * ay
         self.waypoint_offset = (int(nx) - c[0], int(ny) - c[1])
 
     @property
-    def _waypoint_cardinal(self) -> Tuple[str, str]:
+    def _waypoint_cardinal(self) -> t.Tuple[str, str]:
         ns = "N" if self.waypoint_offset[1] > 0 else "S"
         ew = "E" if self.waypoint_offset[0] > 0 else "W"
         return ns, ew
 
     @property
-    def _waypoint(self) -> Tuple[int, int]:
+    def _waypoint(self) -> t.Tuple[int, int]:
         c, w = self.coords, self.waypoint_offset
         return (c[0] + w[0], c[1] + w[1])
 
@@ -169,13 +164,13 @@ def _load_instructions(lines):
     instructions = []
 
     for line in lines:
-        action, value = match(r"^([A-Z])(\d+)", line).groups()
+        action, value = re.match(r"^([A-Z])(\d+)", line).groups()
         instructions.append(Instruction(action, int(value)))
 
     return instructions
 
 
-def follow_instructions(ship: Ship, lines: List[str]):
+def follow_instructions(ship: Ship, lines: t.List[str]):
     instructions = _load_instructions(lines)
 
     for ins in instructions:
@@ -185,7 +180,7 @@ def follow_instructions(ship: Ship, lines: List[str]):
 
 
 def main():
-    p1 = follow_instructions(Ship(), input_lines())
-    p2 = follow_instructions(WaypointShip(), input_lines())
+    p1 = follow_instructions(Ship(), afs.input_lines())
+    p2 = follow_instructions(WaypointShip(), afs.input_lines())
 
     return p1, p2

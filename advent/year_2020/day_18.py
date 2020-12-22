@@ -73,30 +73,12 @@ Your puzzle answer was 4208490449905.
 Both parts of this puzzle are complete! They provide two gold stars: **
 """
 
-from re import sub
-from collections import deque
-from math import prod
-from advent.util import input_lines
-
-TEST1 = """1 + 2 * 3 + 4 * 5 + 6
-1 + (2 * 3) + (4 * (5 + 6))
-2 * 3 + (4 * 5)
-5 + (8 * 3 + 9 + 3 * 4 * 3)
-5 * 9 * (7 * 3 * 3 + 9 * 3 + (8 + 6 * 4))
-((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2"""
-
-TEST2 = """1 + 2 * 3 + 4 * 5 + 6
-1 + (2 * 3) + (4 * (5 + 6))
-2 * 3 + (4 * 5)
-5 + (8 * 3 + 9 + 3 * 4 * 3)
-5 * 9 * (7 * 3 * 3 + 9 * 3 + (8 + 6 * 4))
-((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2
-"""
+from advent.tools import *
 
 
 def _basic(expr):
     term, op = [0], ["+"]
-    q = deque(list(expr))
+    q = cl.deque(list(expr))
 
     while q:
         tok = q.popleft()
@@ -119,7 +101,7 @@ def _basic(expr):
 
 def _advanced(expr):
     term, op = [[0]], ["+"]
-    q = deque(list(expr))
+    q = cl.deque(list(expr))
 
     while q:
         tok = q.popleft()
@@ -131,13 +113,13 @@ def _advanced(expr):
             term.append([0])
         elif tok == ")":
             op.pop()
-            q.appendleft(str(prod(term.pop())))
+            q.appendleft(str(math.prod(term.pop())))
         elif op[-1] == "+":
             term[-1].append(int(tok) + term[-1].pop())
         elif op[-1] == "*":
             term[-1].append(int(tok))
 
-    return prod(term[0])
+    return math.prod(term[0])
 
 
 def _pt1(exprs):
@@ -148,9 +130,25 @@ def _pt2(exprs):
     return sum(map(_advanced, exprs))
 
 
+TEST1 = """1 + 2 * 3 + 4 * 5 + 6
+1 + (2 * 3) + (4 * (5 + 6))
+2 * 3 + (4 * 5)
+5 + (8 * 3 + 9 + 3 * 4 * 3)
+5 * 9 * (7 * 3 * 3 + 9 * 3 + (8 + 6 * 4))
+((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2"""
+
+TEST2 = """1 + 2 * 3 + 4 * 5 + 6
+1 + (2 * 3) + (4 * (5 + 6))
+2 * 3 + (4 * 5)
+5 + (8 * 3 + 9 + 3 * 4 * 3)
+5 * 9 * (7 * 3 * 3 + 9 * 3 + (8 + 6 * 4))
+((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2
+"""
+
+
 def main():
-    parse = lambda s: [sub(r"\s+", "", l) for l in s]
+    parse = lambda s: [re.sub(r"\s+", "", l) for l in s]
     t1, t2 = parse(TEST1.splitlines()), parse(TEST2.splitlines())
-    e = parse(input_lines())
+    e = parse(afs.input_lines())
 
     return _pt1(t1), _pt1(e), _pt2(t2), _pt2(e)

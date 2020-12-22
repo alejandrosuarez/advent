@@ -421,13 +421,10 @@ Your puzzle answer was 1936.
 Both parts of this puzzle are complete! They provide two gold stars: **
 """
 
-import numpy as np
-from itertools import product
-from copy import deepcopy
+from advent.tools import *
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
-from advent.util import input_lines
 
 TEST = """.#.
 ..#
@@ -463,7 +460,7 @@ def _next_state(grid, dims, dirs):
 
 
 def _game_of_life(grid, cycles=6, dimensions=3):
-    directions = list(product([+1, -1, 0], repeat=dimensions))[:-1]
+    directions = list(it.product([+1, -1, 0], repeat=dimensions))[:-1]
 
     for _ in range(dimensions - 2):
         grid = np.expand_dims(grid, 0)
@@ -523,5 +520,5 @@ def _pt2(grid):
 def main():
     parse = lambda l: np.array([[MAPPING[s] for s in r] for r in l], np.int)
     t1 = parse(TEST.splitlines())
-    g = parse(input_lines())
+    g = parse(afs.input_lines())
     return _pt1(t1.copy()), _pt1(g.copy()), _pt2(t1.copy()), _pt2(g.copy())

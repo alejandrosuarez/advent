@@ -32,8 +32,7 @@ Of course, your expense report is much larger.
 Find the two entries that sum to 2020; what do you get if you multiply them together?
 """
 
-from math import prod
-from advent.util import load_input
+from advent.tools import *
 
 
 def _two_sum(nums, k):
@@ -55,6 +54,6 @@ def _three_sum(nums, k):
 
 
 def main():
-    nums = [int(n) for n in load_input()]
+    nums = [int(n) for n in afs.load_input()]
     k = 2020
-    return prod(_two_sum(nums, k)), prod(_three_sum(nums, k))
+    return math.prod(_two_sum(nums, k)), math.prod(_three_sum(nums, k))

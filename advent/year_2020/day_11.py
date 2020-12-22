@@ -212,8 +212,7 @@ Your puzzle answer was 2089.
 Both parts of this puzzle are complete! They provide two gold stars: **
 """
 
-from copy import deepcopy
-from advent.util import input_lines
+from advent.tools import *
 
 FLOOR, EMPTY, OCCUPIED = 0, 1, 2
 MAPPING = {".": FLOOR, "L": EMPTY, "#": OCCUPIED}
@@ -279,8 +278,8 @@ def _pt2(grid):
 
 
 def main():
-    grid = [[[None, MAPPING[s]] for s in r] for r in input_lines()]
-    pt1 = _pt1(deepcopy(grid))
-    pt2 = _pt2(deepcopy(grid))
+    grid = [[[None, MAPPING[s]] for s in r] for r in afs.input_lines()]
+    pt1 = _pt1(cp.deepcopy(grid))
+    pt2 = _pt2(cp.deepcopy(grid))
 
     return pt1, pt2

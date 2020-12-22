@@ -106,11 +106,7 @@ Your puzzle answer was 3219837697833.
 Both parts of this puzzle are complete! They provide two gold stars: **
 """
 
-
-from re import match
-from collections import defaultdict
-from typing import NamedTuple, Tuple, List
-from advent.util import load_input
+from advent.tools import *
 
 TEST1 = """mask = XXXXXXXXXXXXXXXXXXXXXXXXXXXXX1XXXX0X
 mem[8] = 11
@@ -124,7 +120,7 @@ mem[26] = 1"""
 
 
 def pt1(instructions):
-    mem = defaultdict(int)
+    mem = cl.defaultdict(int)
 
     for mask, writes in instructions:
         for addr, val in writes:
@@ -136,7 +132,7 @@ def pt1(instructions):
 
 
 def pt2(instructions):
-    mem = defaultdict(int)
+    mem = cl.defaultdict(int)
 
     def backtrack(mask, i, addr, val):
         if i == len(mask):
@@ -160,10 +156,10 @@ def _parse(s):
     grps = [g.splitlines() for g in grps]
 
     for i, g in enumerate(grps):
-        g[0] = match(r" = ([01X]+)", g[0]).groups()[0]
+        g[0] = re.match(r" = ([01X]+)", g[0]).groups()[0]
 
         for j in range(1, len(g)):
-            g[j] = match(r"mem\[(\d+)\] = (\d+)", g[j]).groups()
+            g[j] = re.match(r"mem\[(\d+)\] = (\d+)", g[j]).groups()
 
         grps[i] = (g[0], [(int(x), int(y)) for x, y in g[1:]])
 
@@ -171,7 +167,7 @@ def _parse(s):
 
 
 def main():
-    i = _parse(load_input().read())
+    i = _parse(afs.read_input())
     t1 = pt1(_parse(TEST1))
     t2 = pt2(_parse(TEST2))
 

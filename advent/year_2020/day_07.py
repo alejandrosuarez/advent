@@ -81,19 +81,17 @@ Your puzzle answer was 5312.
 Both parts of this puzzle are complete! They provide two gold stars: **
 """
 
-from re import match
-from collections import defaultdict
-from advent.util import load_input
+from advent.tools import *
 
 
 def _build_graph():
-    graph = defaultdict(list)
+    graph = cl.defaultdict(list)
     nodes = set()
     p1 = r"^([a-z]+ [a-z]+) bags contain (.*)\.$"
     p2 = r"^(\d) ([a-z]+ [a-z]+) bag[s]?$"
 
-    for l in load_input():
-        src, dests = match(p1, l).groups()
+    for l in afs.load_input():
+        src, dests = re.match(p1, l).groups()
         nodes.add(src)
         dests = dests.split(", ")
 
@@ -101,7 +99,7 @@ def _build_graph():
             if dest == "no other bags":
                 continue
 
-            q, d = match(p2, dest).groups()
+            q, d = re.match(p2, dest).groups()
             graph[src].append((d, int(q)))
             nodes.add(d)
 

@@ -282,19 +282,12 @@ Your puzzle answer was 1705.
 Both parts of this puzzle are complete! They provide two gold stars: **
 """
 
-import numpy as np
-import re
-import itertools as it
-import math
-from collections import defaultdict, namedtuple
-from dataclasses import dataclass
-from typing import List, Tuple, Dict, Set
-from advent.util import load_input
+from advent.tools import *
 
-Rotation = namedtuple("Rotation", ["flip", "flip_axis", "rot", "pixels", "cropped"])
+Rotation = cl.namedtuple("Rotation", ["flip", "flip_axis", "rot", "pixels", "cropped"])
 
 
-@dataclass
+@dc.dataclass
 class Tile:
     id: int
     pixels: np.array
@@ -320,9 +313,9 @@ class Tile:
         return self.pixels[1:-1, 1:-1]
 
 
-@dataclass
+@dc.dataclass
 class Image:
-    tiles: List[Tile]
+    tiles: t.List[Tile]
 
     def __post_init__(self):
         self.graph, self.indegrees, self.shared = self._build_graph()
@@ -470,16 +463,16 @@ class Image:
 
     def _build_graph(self):
         index, graph, indegrees = (
-            defaultdict(set),
-            defaultdict(set),
-            defaultdict(int),
+            cl.defaultdict(set),
+            cl.defaultdict(set),
+            cl.defaultdict(int),
         )
 
         for t in self.tiles:
             for b in t.border.keys():
                 index[b].add(t.id)
 
-        shared = defaultdict(dict)
+        shared = cl.defaultdict(dict)
 
         for border, tiles in index.items():
             for u, v in it.combinations(tiles, 2):
@@ -678,5 +671,5 @@ SEA_MONSTER = """                  #
 
 def main():
     t = _parse(TEST1)
-    s = _parse(load_input().read())
+    s = _parse(afs.read_input())
     return _pt1(t), _pt1(s), _pt2(t), _pt2(s)

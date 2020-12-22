@@ -114,38 +114,8 @@ build logic using this graph
 sat solve to assign cols to field names
 """
 
-from collections import defaultdict
-from math import prod
-from timeit import timeit
-from itertools import combinations
+from advent.tools import *
 from pysat.solvers import Maplesat as Solver
-from re import findall, match
-from advent.util import load_input
-
-TEST1 = """class: 1-3 or 5-7
-row: 6-11 or 33-44
-seat: 13-40 or 45-50
-
-your ticket:
-7,1,14
-
-nearby tickets:
-7,3,47
-40,4,50
-55,2,20
-38,6,12"""
-
-TEST2 = """class: 0-1 or 4-19
-row: 0-5 or 8-19
-seat: 0-13 or 16-19
-
-your ticket:
-11,12,13
-
-nearby tickets:
-3,9,18
-15,1,5
-5,14,9"""
 
 START, END, QUERY = 0, 2, 1
 
@@ -195,12 +165,12 @@ class Logic:
 
         # column can only be assigned to 1 field name
         for c in cols:
-            for a, b in combinations(fields, 2):
+            for a, b in it.combinations(fields, 2):
                 cnf.append([-term(a, c), -term(b, c)])
 
         # field name can only be assigned to 1 column
         for f in fields:
-            for a, b in combinations(cols, 2):
+            for a, b in it.combinations(cols, 2):
                 cnf.append([-term(f, a), -term(f, b)])
 
         # knowledge from sweep line
@@ -245,7 +215,7 @@ def _pt2(r, t, n):
 
     mapped = list(zip(assignments, t))
 
-    return prod(v for k, v in mapped if k.startswith("departure"))
+    return math.prod(v for k, v in mapped if k.startswith("departure"))
 
 
 def _parse(s):
@@ -255,8 +225,8 @@ def _parse(s):
     ticket = list(map(int, ticket.splitlines()[1].split(",")))
 
     for g in range_grps:
-        field = match(r"^(.*):", g).groups()[0]
-        ranges += [(int(s), int(e), field) for s, e in findall(r"(\d+)-(\d+)", g)]
+        field = re.match(r"^(.*):", g).groups()[0]
+        ranges += [(int(s), int(e), field) for s, e in re.findall(r"(\d+)-(\d+)", g)]
 
     for row in notes.splitlines()[1:]:
         for col, val in enumerate(row.split(",")):
@@ -265,8 +235,34 @@ def _parse(s):
     return ranges, ticket, nearby
 
 
+TEST1 = """class: 1-3 or 5-7
+row: 6-11 or 33-44
+seat: 13-40 or 45-50
+
+your ticket:
+7,1,14
+
+nearby tickets:
+7,3,47
+40,4,50
+55,2,20
+38,6,12"""
+
+TEST2 = """class: 0-1 or 4-19
+row: 0-5 or 8-19
+seat: 0-13 or 16-19
+
+your ticket:
+11,12,13
+
+nearby tickets:
+3,9,18
+15,1,5
+5,14,9"""
+
+
 def main():
     t1, t2 = _parse(TEST1), _parse(TEST2)
-    s = _parse(load_input().read())
+    s = _parse(afs.read_input())
 
     return _pt1(*t1), _pt1(*s), _pt2(*s)

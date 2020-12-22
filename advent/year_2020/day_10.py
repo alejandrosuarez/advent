@@ -160,12 +160,11 @@ Your puzzle answer was 3543369523456.
 Both parts of this puzzle are complete! They provide two gold stars: **
 """
 
-from collections import Counter
-from advent.util import load_input
+from advent.tools import *
 
 
 def _pt1(adapters):
-    diffs = Counter([y - x for x, y in zip(adapters, adapters[1:])])
+    diffs = cl.Counter([y - x for x, y in zip(adapters, adapters[1:])])
     return diffs[1] * diffs[3]
 
 
@@ -182,7 +181,7 @@ def _pt2(adapters):
 
 
 def main():
-    adapters = sorted(list(map(int, load_input())))
+    adapters = sorted(list(map(int, afs.load_input())))
     adapters = [0] + adapters + [adapters[-1] + 3]
     pt1 = _pt1(adapters)
     pt2 = _pt2(adapters)

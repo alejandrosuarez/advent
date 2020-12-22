@@ -85,8 +85,7 @@ Your puzzle answer was 3424528800.
 Both parts of this puzzle are complete! They provide two gold stars: **
 """
 
-from math import prod
-from advent.util import load_input
+from advent.tools import *
 
 OPEN, TREE = ".", "#"
 
@@ -105,9 +104,9 @@ def _pt1(grid, x=3, y=1):
 
 def _pt2(grid):
     paths_xy = [(1, 1), (3, 1), (5, 1), (7, 1), (1, 2)]
-    return prod(_pt1(grid, *p) for p in paths_xy)
+    return math.prod(_pt1(grid, *p) for p in paths_xy)
 
 
 def main():
-    grid = [list(r) for r in load_input().read().splitlines()]
+    grid = [list(r) for r in afs.input_lines()]
     return _pt1(grid), _pt2(grid)

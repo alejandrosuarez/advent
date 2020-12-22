@@ -65,7 +65,7 @@ highest sid
 missing sid in seq
 """
 
-from advent.util import load_input
+from advent.tools import *
 
 
 def _bsearch(lo, hi, code, up, down):
@@ -90,7 +90,7 @@ def _sid(l):
 
 
 def main():
-    sids = [_sid(l) for l in load_input()]
+    sids = [_sid(l) for l in afs.load_input()]
     sids.sort()
 
     for i in range(1, len(sids)):

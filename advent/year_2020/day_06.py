@@ -81,7 +81,7 @@ Your puzzle answer was 3178.
 Both parts of this puzzle are complete! They provide two gold stars: **
 """
 
-from advent.util import load_input
+from advent.tools import *
 
 
 def _pt2(g):
@@ -100,7 +100,7 @@ def _pt2(g):
 
 
 def main():
-    s = [l.splitlines() for l in load_input().read().split("\n\n")]
+    s = [l.splitlines() for l in afs.read_input().split("\n\n")]
     pt1 = sum([len(set("".join(g))) for g in s])
     pt2 = sum([_pt2(g) for g in s])
 

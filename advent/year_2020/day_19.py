@@ -163,8 +163,33 @@ Both parts of this puzzle are complete! They provide two gold stars: **
 """
 
 from lark import Lark, exceptions
-import re
-from advent.util import load_input
+from advent.tools import *
+
+
+def _pt1(g, m):
+    return _count_matches(g, m)
+
+
+def _pt2(g, m):
+    r8 = "8: 42 | 42 8"
+    r11 = "11: 42 31 | 42 11 31"
+    g = re.sub(re.compile(r"^8: 42$", re.MULTILINE), r8, g)
+    g = re.sub(re.compile(r"^11: 42 31$", re.MULTILINE), r11, g)
+
+    return _count_matches(g, m)
+
+
+def _count_matches(grammar, messages):
+    p = Lark(re.sub(r"(\d+)", r"r\1", grammar), start="r0")
+
+    def parse(m):
+        try:
+            return bool(p.parse(m))
+        except (exceptions.UnexpectedEOF, exceptions.UnexpectedCharacters):
+            return False
+
+    return sum(map(parse, messages))
+
 
 TEST1 = """0: 4 1 5
 1: 2 3 | 3 2
@@ -228,36 +253,11 @@ babaaabbbaaabaababbaabababaaab
 aabbbbbaabbbaaaaaabbbbbababaaaaabbaaabba"""
 
 
-def _pt1(g, m):
-    return _count_matches(g, m)
-
-
-def _pt2(g, m):
-    r8 = "8: 42 | 42 8"
-    r11 = "11: 42 31 | 42 11 31"
-    g = re.sub(re.compile(r"^8: 42$", re.MULTILINE), r8, g)
-    g = re.sub(re.compile(r"^11: 42 31$", re.MULTILINE), r11, g)
-
-    return _count_matches(g, m)
-
-
-def _count_matches(grammar, messages):
-    p = Lark(re.sub(r"(\d+)", r"r\1", grammar), start="r0")
-
-    def parse(m):
-        try:
-            return bool(p.parse(m))
-        except (exceptions.UnexpectedEOF, exceptions.UnexpectedCharacters):
-            return False
-
-    return sum(map(parse, messages))
-
-
 def main():
     def parse(l):
         g, m = l.split("\n\n")
         return g, m.splitlines()
 
-    t1, t2, s = parse(TEST1), parse(TEST2), parse(load_input().read())
+    t1, t2, s = parse(TEST1), parse(TEST2), parse(afs.read_input())
 
     return _pt1(*t1), _pt1(*s), _pt1(*t2), _pt2(*t2), _pt2(*s)

@@ -135,8 +135,7 @@ Your puzzle answer was 186.
 Both parts of this puzzle are complete! They provide two gold stars: **
 """
 
-from re import split, match
-from advent.util import load_input
+from advent.tools import *
 
 
 def _validate_pt1(passport):
@@ -146,7 +145,7 @@ def _validate_pt1(passport):
 
 def _validate_pt2(passport):
     hgt_val = False
-    hgt = match(r"^(\d+)(in|cm)$", passport.get("hgt", ""))
+    hgt = re.match(r"^(\d+)(in|cm)$", passport.get("hgt", ""))
     ecls = {"amb", "blu", "brn", "gry", "grn", "hzl", "oth"}
 
     if hgt:
@@ -163,21 +162,21 @@ def _validate_pt2(passport):
             1920 <= int(passport.get("byr", "-1")) <= 2002,
             2010 <= int(passport.get("iyr", "-1")) <= 2020,
             2020 <= int(passport.get("eyr", "-1")) <= 2030,
-            match(r"^#[0-9a-f]{6}$", passport.get("hcl", "")),
+            re.match(r"^#[0-9a-f]{6}$", passport.get("hcl", "")),
             passport.get("ecl", "") in ecls,
-            match(r"^\d{9}$", passport.get("pid", "")),
+            re.match(r"^\d{9}$", passport.get("pid", "")),
             hgt_val,
         ]
     )
 
 
 def _parse(raw):
-    strs = split(r"\n|\s", raw)
+    strs = re.split(r"\n|\s", raw)
     return {k: v for k, v in [s.split(":") for s in strs]}
 
 
 def main():
-    passports = list(map(_parse, load_input().read().split("\n\n")))
+    passports = list(map(_parse, afs.read_input().split("\n\n")))
     pt1 = sum(map(_validate_pt1, passports))
     pt2 = sum(map(_validate_pt2, passports))
 
