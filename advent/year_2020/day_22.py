@@ -490,13 +490,10 @@ def _pt2(p1, p2):
     return _winning_score(*_game(p1, p2))
 
 
-def _parse(r):
-    return [cl.deque(list(map(int, s.splitlines()[1:]))) for s in r]
-
-
 def main():
-    t = _parse(TEST.split("\n\n"))
-    s = _parse(afs.read_input().split("\n\n"))
+    tr = lambda g: [cl.deque(list(map(int, s.splitlines()[1:]))) for s in g]
+    t = afs.input_groups(TEST, transform_groups=tr)
+    s = afs.input_groups(transform_groups=tr)
 
     return (
         _pt1(*cp.deepcopy(t)),

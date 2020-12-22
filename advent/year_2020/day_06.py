@@ -100,7 +100,7 @@ def _pt2(g):
 
 
 def main():
-    s = [l.splitlines() for l in afs.read_input().split("\n\n")]
+    s = [l.splitlines() for l in afs.input_groups()]
     pt1 = sum([len(set("".join(g))) for g in s])
     pt2 = sum([_pt2(g) for g in s])
 

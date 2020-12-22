@@ -176,7 +176,7 @@ def _parse(raw):
 
 
 def main():
-    passports = list(map(_parse, afs.read_input().split("\n\n")))
+    passports = list(map(_parse, afs.input_groups()))
     pt1 = sum(map(_validate_pt1, passports))
     pt2 = sum(map(_validate_pt2, passports))
 

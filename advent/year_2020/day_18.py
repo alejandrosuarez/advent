@@ -148,7 +148,8 @@ TEST2 = """1 + 2 * 3 + 4 * 5 + 6
 
 def main():
     parse = lambda s: [re.sub(r"\s+", "", l) for l in s]
-    t1, t2 = parse(TEST1.splitlines()), parse(TEST2.splitlines())
+    t1 = parse(afs.input_lines(TEST1))
+    t2 = parse(afs.input_lines(TEST2))
     e = parse(afs.input_lines())
 
     return _pt1(t1), _pt1(e), _pt2(t2), _pt2(e)

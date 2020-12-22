@@ -519,6 +519,6 @@ def _pt2(grid):
 
 def main():
     parse = lambda l: np.array([[MAPPING[s] for s in r] for r in l], np.int)
-    t1 = parse(TEST.splitlines())
+    t = parse(afs.input_lines(TEST))
     g = parse(afs.input_lines())
-    return _pt1(t1.copy()), _pt1(g.copy()), _pt2(t1.copy()), _pt2(g.copy())
+    return _pt1(t.copy()), _pt1(g.copy()), _pt2(t.copy()), _pt2(g.copy())

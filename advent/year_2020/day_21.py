@@ -62,11 +62,6 @@ from scipy.sparse import csr_matrix
 from scipy.sparse.csgraph import maximum_bipartite_matching as match
 
 
-def _parse(lines):
-    inp = [re.sub(r" \(|\)", "", l).split("contains ") for l in lines]
-    return [[set(ing.split(" ")), set(alg.split(", "))] for ing, alg in inp]
-
-
 def _build_matrix(lists):
     allergens = set(np.concatenate([list(a) for _, a in lists]))
     ingredients = set(np.concatenate([list(i) for i, _ in lists]))
@@ -120,8 +115,13 @@ sqjhc fvjkl (contains soy)
 sqjhc mxmxvkd sbzzf (contains fish)"""
 
 
+def _transform(l):
+    l = re.sub(r" \(|\)", "", l).split("contains ")
+    return [set(l[0].split(" ")), set(l[1].split(", "))]
+
+
 def main():
-    t = _parse(TEST.splitlines())
-    s = _parse(afs.input_lines())
+    t = afs.input_lines(TEST, transform_line=_transform)
+    s = afs.input_lines(transform_line=_transform)
 
     return _pt1(t), _pt1(s), _pt2(t), _pt2(s)

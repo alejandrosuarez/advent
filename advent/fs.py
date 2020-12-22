@@ -16,6 +16,14 @@ def main():
 '''
 
 
+def with_caller(func):
+    def wrapper(*args, **kwargs):
+        caller = stack()[1].filename
+        return func(caller, *args, **kwargs)
+
+    return wrapper
+
+
 def load_input(caller=None):
     caller = stack()[1].filename if not caller else caller
     input_path = sub(r"\.py", ".txt", caller)
@@ -28,9 +36,26 @@ def read_input(caller=None):
     return load_input(caller).read()
 
 
-def input_lines():
-    caller = stack()[1].filename
-    return read_input(caller).splitlines()
+@with_caller
+def input_lines(
+    caller,
+    s=None,
+    transform_lines=lambda g: g,
+    transform_line=lambda l: l,
+):
+    s = s or read_input(caller)
+    return list(map(transform_line, transform_lines(s.splitlines())))
+
+
+@with_caller
+def input_groups(
+    caller,
+    s=None,
+    transform_groups=lambda g: g,
+    transform_group=lambda g: g,
+):
+    s = s or read_input(caller)
+    return list(map(transform_group, transform_groups(s.split("\n\n"))))
 
 
 def run(year, day):

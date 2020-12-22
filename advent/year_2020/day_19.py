@@ -254,10 +254,9 @@ aabbbbbaabbbaaaaaabbbbbababaaaaabbaaabba"""
 
 
 def main():
-    def parse(l):
-        g, m = l.split("\n\n")
-        return g, m.splitlines()
-
-    t1, t2, s = parse(TEST1), parse(TEST2), parse(afs.read_input())
+    tr = lambda g: (g[0], g[1].splitlines())
+    t1 = afs.input_groups(TEST1, transform_groups=tr)
+    t2 = afs.input_groups(TEST1, transform_groups=tr)
+    s = afs.input_groups(transform_groups=tr)
 
     return _pt1(*t1), _pt1(*s), _pt1(*t2), _pt2(*t2), _pt2(*s)
