@@ -1,13 +1,11 @@
 #!/usr/bin/env python3
 
 from sys import argv
+from advent.fs import run, generate
 
 
 def main():
-    y, d = f"year_{argv[1]}", f"day_{argv[2]}"
-    mod = __import__(f"advent.{y}.{d}")
-    day = getattr(getattr(mod, y), d)
-    return day.main()
+    return {"run": run, "generate": generate}[argv[1]](*argv[2:])
 
 
 if __name__ == "__main__":
