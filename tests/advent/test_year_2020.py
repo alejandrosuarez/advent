@@ -106,3 +106,13 @@ def test_day_21():
 @mark.skip
 def test_day_22():
     assert day_22.main() == [306, 32783, 291, 33455]
+
+
+@mark.skip
+def test_day_23():
+    assert day_23.main() == [
+        ("92658374", "67384529"),
+        ("42573968", "28793654"),
+        149245887792,
+        359206768694,
+    ]

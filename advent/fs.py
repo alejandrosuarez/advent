@@ -48,8 +48,9 @@ def input_lines(
     parts=[],
     transform_lines=lambda g: g,
     transform_line=lambda l: l,
+    run_input=True,
 ):
-    inputs = tests + [read_input(caller)]
+    inputs = tests + ([read_input(caller)] if run_input else [])
     results = []
 
     for part in parts:
