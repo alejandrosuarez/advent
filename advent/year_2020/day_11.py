@@ -277,9 +277,21 @@ def _pt2(grid):
     return _game_of_life(grid, neighbors, 5)
 
 
-def main():
-    grid = [[[None, MAPPING[s]] for s in r] for r in afs.input_lines()]
-    pt1 = _pt1(cp.deepcopy(grid))
-    pt2 = _pt2(cp.deepcopy(grid))
+TEST = """L.LL.LL.LL
+LLLLLLL.LL
+L.L.L..L..
+LLLL.LL.LL
+L.LL.LL.LL
+L.LLLLL.LL
+..L.L.....
+LLLLLLLLLL
+L.LLLLLL.L
+L.LLLLL.LL"""
 
-    return pt1, pt2
+
+def main():
+    return afs.input_lines(
+        other_inputs=[TEST],
+        parts=[_pt1, _pt2],
+        transform_line=lambda l: [[None, MAPPING[s]] for s in l],
+    )

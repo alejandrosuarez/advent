@@ -119,7 +119,7 @@ mask = 00000000000000000000000000000000X0XX
 mem[26] = 1"""
 
 
-def pt1(instructions):
+def _pt1(instructions):
     mem = cl.defaultdict(int)
 
     for mask, writes in instructions:
@@ -131,7 +131,7 @@ def pt1(instructions):
     return sum(mem.values())
 
 
-def pt2(instructions):
+def _pt2(instructions):
     mem = cl.defaultdict(int)
 
     def backtrack(mask, i, addr, val):
@@ -151,27 +151,32 @@ def pt2(instructions):
     return sum(mem.values())
 
 
-def _parse(s):
-    grps = s.split("mask")[1:]
-    grps = [g.splitlines() for g in grps]
+def _transform_group(g):
+    mask, writes = g[0], g[1:]
+    mask = re.match(r"^ = ([01X]+)", mask).groups()[0]
+    writes = [re.match(r"^mem\[(\d+)\] = (\d+)", i).groups() for i in writes]
+    writes = [(int(x), int(y)) for x, y in writes]
 
-    for i, g in enumerate(grps):
-        g[0] = re.match(r" = ([01X]+)", g[0]).groups()[0]
-
-        for j in range(1, len(g)):
-            g[j] = re.match(r"mem\[(\d+)\] = (\d+)", g[j]).groups()
-
-        grps[i] = (g[0], [(int(x), int(y)) for x, y in g[1:]])
-
-    return grps
+    return mask, writes
 
 
 def main():
-    i = _parse(afs.read_input())
-    t1 = pt1(_parse(TEST1))
-    t2 = pt2(_parse(TEST2))
+    sep, tr = "mask", lambda gs: [g.splitlines() for g in gs[1:]]
 
-    assert t1 == 165
-    assert t2 == 208
+    a1 = afs.input_groups(
+        other_inputs=[TEST1],
+        parts=[_pt1],
+        transform_groups=tr,
+        transform_group=_transform_group,
+        sep="mask",
+    )
 
-    return t1, t2, pt1(i), pt2(i)
+    a2 = afs.input_groups(
+        other_inputs=[TEST2],
+        parts=[_pt1, _pt2],
+        transform_groups=tr,
+        transform_group=_transform_group,
+        sep="mask",
+    )
+
+    return a1 + a2

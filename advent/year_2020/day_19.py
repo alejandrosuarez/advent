@@ -166,11 +166,12 @@ from lark import Lark, exceptions
 from advent.tools import *
 
 
-def _pt1(g, m):
-    return _count_matches(g, m)
+def _pt1(g):
+    return _count_matches(*g)
 
 
-def _pt2(g, m):
+def _pt2(g):
+    g, m = g
     r8 = "8: 42 | 42 8"
     r11 = "11: 42 31 | 42 11 31"
     g = re.sub(re.compile(r"^8: 42$", re.MULTILINE), r8, g)
@@ -254,9 +255,8 @@ aabbbbbaabbbaaaaaabbbbbababaaaaabbaaabba"""
 
 
 def main():
-    tr = lambda g: (g[0], g[1].splitlines())
-    t1 = afs.input_groups(TEST1, transform_groups=tr)
-    t2 = afs.input_groups(TEST1, transform_groups=tr)
-    s = afs.input_groups(transform_groups=tr)
-
-    return _pt1(*t1), _pt1(*s), _pt1(*t2), _pt2(*t2), _pt2(*s)
+    return afs.input_groups(
+        other_inputs=[TEST1, TEST2],
+        parts=[_pt1, _pt2],
+        transform_groups=lambda g: (g[0], g[1].splitlines()),
+    )

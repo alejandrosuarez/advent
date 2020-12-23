@@ -100,7 +100,7 @@ Both parts of this puzzle are complete! They provide two gold stars: **
 from advent.tools import *
 
 
-def _pt1(nums, preamble):
+def _rolling_window(nums, preamble):
     q = cl.deque(nums[:preamble])
     compliments = {n: i for i, n in enumerate(nums[:preamble])}
 
@@ -120,7 +120,7 @@ def _pt1(nums, preamble):
             q.append(k)
 
 
-def _pt2(nums, k):
+def _subarray_sum(nums, k):
     sums, rolling = {}, 0
 
     for i, n in enumerate(nums):
@@ -134,10 +134,13 @@ def _pt2(nums, k):
         sums[rolling] = i
 
 
+def _pt1(nums):
+    return _rolling_window(nums, 25)
+
+
+def _pt2(nums):
+    return _subarray_sum(nums, _pt1(nums))
+
+
 def main():
-    nums = [int(i) for i in afs.input_lines()]
-
-    pt1 = _pt1(nums, 25)
-    pt2 = _pt2(nums, pt1)
-
-    return pt1, pt2
+    return afs.input_lines(parts=[_pt1, _pt2], transform_line=int)

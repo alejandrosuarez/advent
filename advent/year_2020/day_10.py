@@ -180,10 +180,26 @@ def _pt2(adapters):
     return dp[-1]
 
 
-def main():
-    adapters = sorted(list(map(int, afs.load_input())))
-    adapters = [0] + adapters + [adapters[-1] + 3]
-    pt1 = _pt1(adapters)
-    pt2 = _pt2(adapters)
+TEST = """16
+10
+15
+5
+1
+11
+7
+19
+6
+12
+4"""
 
-    return pt1, pt2
+
+def main():
+    def tr(lines):
+        lines = sorted(list(map(int, lines)))
+        return [0] + lines + [lines[-1] + 3]
+
+    return afs.input_lines(
+        other_inputs=[TEST],
+        transform_lines=tr,
+        parts=[_pt1, _pt2],
+    )

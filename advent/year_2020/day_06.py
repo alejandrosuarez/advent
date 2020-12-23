@@ -1,17 +1,23 @@
 """
 --- Day 6: Custom Customs ---
-As your flight approaches the regional airport where you'll switch to a much larger plane, customs declaration forms are distributed to the passengers.
+As your flight approaches the regional airport where you'll switch to a much larger plane,
+customs declaration forms are distributed to the passengers.
 
-The form asks a series of 26 yes-or-no questions marked a through z. All you need to do is identify the questions for which anyone in your group answers "yes". Since your group is just you, this doesn't take very long.
+The form asks a series of 26 yes-or-no questions marked a through z. All you need to do is identify the
+questions for which anyone in your group answers "yes". Since your group is just you, this doesn't take very long.
 
-However, the person sitting next to you seems to be experiencing a language barrier and asks if you can help. For each of the people in their group, you write down the questions for which they answer "yes", one per line. For example:
+However, the person sitting next to you seems to be experiencing a language barrier and asks if you can help.
+For each of the people in their group, you write down the questions for which they answer "yes", one per line. For example:
 
 abcx
 abcy
 abcz
-In this group, there are 6 questions to which anyone answered "yes": a, b, c, x, y, and z. (Duplicate answers to the same question don't count extra; each question counts at most once.)
+In this group, there are 6 questions to which anyone answered "yes": a, b, c, x, y, and z.
+(Duplicate answers to the same question don't count extra; each question counts at most once.)
 
-Another group asks for your help, then another, and eventually you've collected answers from every group on the plane (your puzzle input). Each group's answers are separated by a blank line, and within each group, each person's answers are on a single line. For example:
+Another group asks for your help, then another, and eventually you've collected answers
+from every group on the plane (your puzzle input). Each group's answers are separated by a blank
+line, and within each group, each person's answers are on a single line. For example:
 
 abc
 
@@ -46,7 +52,8 @@ The first half of this puzzle is complete! It provides one gold star: *
 --- Part Two ---
 As you finish the last group's customs declaration, you notice that you misread one word in the instructions:
 
-You don't need to identify the questions to which anyone answered "yes"; you need to identify the questions to which everyone answered "yes"!
+You don't need to identify the questions to which anyone answered "yes"; you need to identify the questions
+to which everyone answered "yes"!
 
 Using the same example as above:
 
@@ -99,9 +106,29 @@ def _pt2(g):
     return bin(mask).count("1")
 
 
-def main():
-    s = [l.splitlines() for l in afs.input_groups()]
-    pt1 = sum([len(set("".join(g))) for g in s])
-    pt2 = sum([_pt2(g) for g in s])
+TEST = """abc
 
-    return pt1, pt2
+a
+b
+c
+
+ab
+ac
+
+a
+a
+a
+a
+
+b"""
+
+
+def main():
+    pt1 = lambda s: sum([len(set("".join(g))) for g in s])
+    pt2 = lambda s: sum([_pt2(g) for g in s])
+
+    return afs.input_groups(
+        other_inputs=[TEST],
+        parts=[pt1, pt2],
+        transform_group=lambda g: g.splitlines(),
+    )

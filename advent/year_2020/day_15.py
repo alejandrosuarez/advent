@@ -70,7 +70,8 @@ from advent.tools import *
 TEST = "0,3,6"
 
 
-def pt1(arr, n=2020):
+def _pt1(lines, n=2020):
+    arr = lines[0]
     start = len(arr)
     turns = cl.defaultdict(cl.deque)
     last = arr[-1]
@@ -89,11 +90,13 @@ def pt1(arr, n=2020):
     return last
 
 
-def pt2(arr):
-    return pt1(arr, n=30000000)
+def _pt2(lines):
+    return _pt1(lines, n=30000000)
 
 
 def main():
-    parse = lambda s: list(map(int, s.split(",")))
-    l, t = parse(afs.input_lines()[0]), parse(TEST)
-    return pt1(t), pt1(l), pt2(t), pt2(l)
+    return afs.input_lines(
+        other_inputs=[TEST],
+        parts=[_pt1, _pt2],
+        transform_line=lambda l: list(map(int, l.split(","))),
+    )

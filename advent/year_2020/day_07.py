@@ -84,13 +84,13 @@ Both parts of this puzzle are complete! They provide two gold stars: **
 from advent.tools import *
 
 
-def _build_graph():
+def _build_graph(lines):
     graph = cl.defaultdict(list)
     nodes = set()
     p1 = r"^([a-z]+ [a-z]+) bags contain (.*)\.$"
     p2 = r"^(\d) ([a-z]+ [a-z]+) bag[s]?$"
 
-    for l in afs.load_input():
+    for l in lines:
         src, dests = re.match(p1, l).groups()
         nodes.add(src)
         dests = dests.split(", ")
@@ -117,10 +117,24 @@ def _count(s, g):
     return sum(q + q * _count(n, g) for n, q in g[s])
 
 
-def main():
-    g, v = _build_graph()
-    b = "shiny gold"
-    pt1 = sum(_search(n, b, g) for n in v if n != b)
-    pt2 = _count(b, g)
+TEST = """light red bags contain 1 bright white bag, 2 muted yellow bags.
+dark orange bags contain 3 bright white bags, 4 muted yellow bags.
+bright white bags contain 1 shiny gold bag.
+muted yellow bags contain 2 shiny gold bags, 9 faded blue bags.
+shiny gold bags contain 1 dark olive bag, 2 vibrant plum bags.
+dark olive bags contain 3 faded blue bags, 4 dotted black bags.
+vibrant plum bags contain 5 faded blue bags, 6 dotted black bags.
+faded blue bags contain no other bags.
+dotted black bags contain no other bags."""
 
-    return pt1, pt2
+
+def main():
+    b = "shiny gold"
+    pt1 = lambda a: sum(_search(n, b, a[0]) for n in a[1] if n != b)
+    pt2 = lambda a: _count(b, a[0])
+
+    return afs.input_lines(
+        other_inputs=[TEST],
+        parts=[pt1, pt2],
+        transform_lines=_build_graph,
+    )

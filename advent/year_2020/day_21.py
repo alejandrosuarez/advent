@@ -121,7 +121,8 @@ def _transform(l):
 
 
 def main():
-    t = afs.input_lines(TEST, transform_line=_transform)
-    s = afs.input_lines(transform_line=_transform)
-
-    return _pt1(t), _pt1(s), _pt2(t), _pt2(s)
+    return afs.input_lines(
+        other_inputs=[TEST],
+        parts=[_pt1, _pt2],
+        transform_line=_transform,
+    )

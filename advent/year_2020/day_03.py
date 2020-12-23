@@ -107,6 +107,22 @@ def _pt2(grid):
     return math.prod(_pt1(grid, *p) for p in paths_xy)
 
 
+TEST = """..##.......
+#...#...#..
+.#....#..#.
+..#.#...#.#
+.#...##..#.
+..#.##.....
+.#.#.#....#
+.#........#
+#.##...#...
+#...##....#
+.#..#...#.#"""
+
+
 def main():
-    grid = [list(r) for r in afs.input_lines()]
-    return _pt1(grid), _pt2(grid)
+    return afs.input_lines(
+        other_inputs=[TEST],
+        transform_line=list,
+        parts=[_pt1, _pt2],
+    )

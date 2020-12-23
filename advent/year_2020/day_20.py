@@ -486,18 +486,6 @@ class Image:
         return graph, indegrees, shared
 
 
-def _parse(s):
-    tiles = []
-
-    for t in s.split("\n\n"):
-        t = t.splitlines()
-        g = [list(r) for r in t[1:]]
-        t = int(re.match(r"^Tile (\d+):", t[0]).groups()[0])
-        tiles.append(Tile(id=t, pixels=np.array(g)))
-
-    return tiles
-
-
 def _find_sms(img, sm_shape):
     for i, row in enumerate(img):
         for j, c in enumerate(row):
@@ -531,7 +519,7 @@ def _pt1(tiles):
     return math.prod(image.corners)
 
 
-TEST1 = """Tile 2311:
+TEST = """Tile 2311:
 ..##.#..#.
 ##..#.....
 #...##..#.
@@ -669,7 +657,16 @@ SEA_MONSTER = """                  #
  #  #  #  #  #  #"""
 
 
+def _transform(g):
+    t = g.splitlines()
+    p = [list(r) for r in t[1:]]
+    t = int(re.match(r"^Tile (\d+):", t[0]).groups()[0])
+    return Tile(id=t, pixels=np.array(p))
+
+
 def main():
-    t = _parse(TEST1)
-    s = _parse(afs.read_input())
-    return _pt1(t), _pt1(s), _pt2(t), _pt2(s)
+    return afs.input_groups(
+        other_inputs=[TEST],
+        parts=[_pt1, _pt2],
+        transform_group=_transform,
+    )

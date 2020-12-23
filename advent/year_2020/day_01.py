@@ -53,7 +53,22 @@ def _three_sum(nums, k):
             return (a[0], a[1], n)
 
 
+TEST = """1721
+979
+366
+299
+675
+1456 """
+
+K = 2020
+
+
 def main():
-    nums = [int(n) for n in afs.load_input()]
-    k = 2020
-    return math.prod(_two_sum(nums, k)), math.prod(_three_sum(nums, k))
+    pt1 = lambda a: math.prod(_two_sum(a, K))
+    pt2 = lambda a: math.prod(_three_sum(a, K))
+
+    return afs.input_lines(
+        transform_line=int,
+        parts=[pt1, pt2],
+        other_inputs=[TEST],
+    )

@@ -160,27 +160,36 @@ class WaypointShip(Ship):
         return (c[0] + w[0], c[1] + w[1])
 
 
-def _load_instructions(lines):
-    instructions = []
-
-    for line in lines:
-        action, value = re.match(r"^([A-Z])(\d+)", line).groups()
-        instructions.append(Instruction(action, int(value)))
-
-    return instructions
-
-
-def follow_instructions(ship: Ship, lines: t.List[str]):
-    instructions = _load_instructions(lines)
-
+def _follow_instructions(ship: Ship, instructions: t.List[Instruction]):
     for ins in instructions:
         ship.apply(ins)
 
     return ship.manhattan_distance()
 
 
-def main():
-    p1 = follow_instructions(Ship(), afs.input_lines())
-    p2 = follow_instructions(WaypointShip(), afs.input_lines())
+def _pt1(lines):
+    return _follow_instructions(Ship(), lines)
 
-    return p1, p2
+
+def _pt2(lines):
+    return _follow_instructions(WaypointShip(), lines)
+
+
+TEST = """F10
+N3
+F7
+R90
+F11"""
+
+
+def _transform(line):
+    action, value = re.match(r"^([A-Z])(\d+)", line).groups()
+    return Instruction(action, int(value))
+
+
+def main():
+    return afs.input_lines(
+        parts=[_pt1, _pt2],
+        other_inputs=[TEST],
+        transform_line=_transform,
+    )

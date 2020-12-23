@@ -138,15 +138,15 @@ Both parts of this puzzle are complete! They provide two gold stars: **
 from advent.tools import *
 
 
-def pt1(lines):
-    a, ids = _parse_lines(lines)
+def _pt1(lines):
+    a, ids = lines
     ids = [(i, ((a // i) + 1) * i) for i in ids if i]
     i, d = min(ids, key=lambda i: i[1])
     return (d - a) * i
 
 
-def pt2(lines):
-    a, ids = _parse_lines(lines)
+def _pt2(lines):
+    a, ids = lines
     ts, step = 0, ids[0]
 
     for i, b in enumerate(ids):
@@ -161,12 +161,11 @@ def pt2(lines):
     return ts
 
 
-def _parse_lines(lines):
+def _transform(lines):
     a = int(lines[0])
     ids = [int(i) if i != "x" else None for i in lines[1].split(",")]
     return a, ids
 
 
 def main():
-    lines = afs.input_lines()
-    return pt1(lines), pt2(lines)
+    return afs.input_lines(parts=[_pt1, _pt2], transform_lines=_transform)

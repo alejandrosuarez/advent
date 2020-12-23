@@ -142,7 +142,8 @@ def _sweep(ranges, nearby):
             yield val, data, active
 
 
-def _pt1(r, _t, n):
+def _pt1(args):
+    r, _, n = args
     return sum(v for v, _, z in _sweep(r, n) if not z)
 
 
@@ -196,7 +197,8 @@ class Logic:
         return None
 
 
-def _pt2(r, t, n):
+def _pt2(args):
+    r, t, n = args
     cols = {x for x in range(len(t))}
     fields = {x for _, _, x in r}
     graph = {x: fields.copy() for x in cols}
@@ -216,23 +218,6 @@ def _pt2(r, t, n):
     mapped = list(zip(assignments, t))
 
     return math.prod(v for k, v in mapped if k.startswith("departure"))
-
-
-def _parse(s):
-    ranges, ticket, notes = s.split("\n\n")
-    range_grps = ranges.splitlines()
-    ranges, nearby = [], []
-    ticket = list(map(int, ticket.splitlines()[1].split(",")))
-
-    for g in range_grps:
-        field = re.match(r"^(.*):", g).groups()[0]
-        ranges += [(int(s), int(e), field) for s, e in re.findall(r"(\d+)-(\d+)", g)]
-
-    for row in notes.splitlines()[1:]:
-        for col, val in enumerate(row.split(",")):
-            nearby.append((int(val), col))
-
-    return ranges, ticket, nearby
 
 
 TEST1 = """class: 1-3 or 5-7
@@ -261,8 +246,26 @@ nearby tickets:
 5,14,9"""
 
 
-def main():
-    t1, t2 = _parse(TEST1), _parse(TEST2)
-    s = _parse(afs.read_input())
+def _transform(groups):
+    ranges, ticket, notes = groups
+    range_grps = ranges.splitlines()
+    ranges, nearby = [], []
+    ticket = list(map(int, ticket.splitlines()[1].split(",")))
 
-    return _pt1(*t1), _pt1(*s), _pt2(*s)
+    for g in range_grps:
+        field = re.match(r"^(.*):", g).groups()[0]
+        ranges += [(int(s), int(e), field) for s, e in re.findall(r"(\d+)-(\d+)", g)]
+
+    for row in notes.splitlines()[1:]:
+        for col, val in enumerate(row.split(",")):
+            nearby.append((int(val), col))
+
+    return ranges, ticket, nearby
+
+
+def main():
+    return afs.input_groups(
+        other_inputs=[TEST1, TEST2],
+        transform_groups=_transform,
+        parts=[_pt1, _pt2],
+    )

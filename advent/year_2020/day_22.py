@@ -431,7 +431,9 @@ def _winning_score(p1, p2):
     return sum(c * (i + 1) for i, c in enumerate(list(p1 or p2)[::-1]))
 
 
-def _pt1(p1, p2):
+def _pt1(groups):
+    p1, p2 = groups
+
     while p1 and p2:
         c1, c2 = p1.popleft(), p2.popleft()
 
@@ -486,18 +488,15 @@ def _round(p1, p2):
     return p1, p2
 
 
-def _pt2(p1, p2):
-    return _winning_score(*_game(p1, p2))
+def _pt2(groups):
+    return _winning_score(*_game(*groups))
 
 
 def main():
-    tr = lambda g: [cl.deque(list(map(int, s.splitlines()[1:]))) for s in g]
-    t = afs.input_groups(TEST, transform_groups=tr)
-    s = afs.input_groups(transform_groups=tr)
+    tr = lambda g: cl.deque(list(map(int, g.splitlines()[1:])))
 
-    return (
-        _pt1(*cp.deepcopy(t)),
-        _pt1(*cp.deepcopy(s)),
-        _pt2(*cp.deepcopy(t)),
-        _pt2(*cp.deepcopy(s)),
+    return afs.input_groups(
+        other_inputs=[TEST],
+        parts=[_pt1, _pt2],
+        transform_group=tr,
     )

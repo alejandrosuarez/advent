@@ -39,23 +39,46 @@ def read_input(caller=None):
 @with_caller
 def input_lines(
     caller,
-    s=None,
+    other_inputs=[],
+    parts=[],
     transform_lines=lambda g: g,
     transform_line=lambda l: l,
 ):
-    s = s or read_input(caller)
-    return list(map(transform_line, transform_lines(s.splitlines())))
+    inputs = other_inputs + [read_input(caller)]
+    results = []
+
+    for part in parts:
+        for inp in inputs:
+            args = list(map(transform_line, transform_lines(inp.splitlines())))
+            results.append(part(args))
+
+    return results
 
 
 @with_caller
 def input_groups(
     caller,
-    s=None,
+    other_inputs=[],
+    parts=[],
     transform_groups=lambda g: g,
     transform_group=lambda g: g,
+    sep="\n\n",
 ):
-    s = s or read_input(caller)
-    return list(map(transform_group, transform_groups(s.split("\n\n"))))
+    inputs = other_inputs + [read_input(caller)]
+    results = []
+
+    for part in parts:
+        for inp in inputs:
+            args = list(
+                map(
+                    transform_group,
+                    transform_groups(inp.split(sep)),
+                )
+            )
+
+            results.append(part(args))
+
+    return results
 
 
 def run(year, day):
