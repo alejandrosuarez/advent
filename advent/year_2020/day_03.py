@@ -122,7 +122,7 @@ TEST = """..##.......
 
 def main():
     return afs.input_lines(
-        other_inputs=[TEST],
+        tests=[TEST],
         transform_line=list,
         parts=[_pt1, _pt2],
     )

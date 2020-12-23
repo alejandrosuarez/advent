@@ -134,7 +134,7 @@ def main():
     pt2 = lambda a: _count(b, a[0])
 
     return afs.input_lines(
-        other_inputs=[TEST],
+        tests=[TEST],
         parts=[pt1, pt2],
         transform_lines=_build_graph,
     )

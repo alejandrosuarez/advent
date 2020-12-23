@@ -199,7 +199,7 @@ def main():
         return [0] + lines + [lines[-1] + 3]
 
     return afs.input_lines(
-        other_inputs=[TEST],
+        tests=[TEST],
         transform_lines=tr,
         parts=[_pt1, _pt2],
     )

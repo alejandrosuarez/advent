@@ -521,7 +521,7 @@ def main():
     transform = lambda l: np.array([[MAPPING[s] for s in r] for r in l], np.int)
 
     return afs.input_lines(
-        other_inputs=[TEST],
+        tests=[TEST],
         parts=[_pt1, _pt2],
         transform_lines=transform,
     )

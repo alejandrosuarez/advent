@@ -164,7 +164,7 @@ def main():
     sep, tr = "mask", lambda gs: [g.splitlines() for g in gs[1:]]
 
     a1 = afs.input_groups(
-        other_inputs=[TEST1],
+        tests=[TEST1],
         parts=[_pt1],
         transform_groups=tr,
         transform_group=_transform_group,
@@ -172,7 +172,7 @@ def main():
     )
 
     a2 = afs.input_groups(
-        other_inputs=[TEST2],
+        tests=[TEST2],
         parts=[_pt1, _pt2],
         transform_groups=tr,
         transform_group=_transform_group,

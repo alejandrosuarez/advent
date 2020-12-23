@@ -75,7 +75,7 @@ TEST = """1-3 a: abcde
 
 def main():
     return afs.input_lines(
-        other_inputs=[TEST],
+        tests=[TEST],
         parts=[_solve],
         transform_line=_validate,
     )

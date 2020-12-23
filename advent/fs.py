@@ -10,9 +10,14 @@ from advent.tools import *
 TEST = """
 """
 
+def _pt1(lines):
+    pass
+
+def _pt2(lines):
+    pass
 
 def main():
-    pass
+    return afs.input_lines(tests=[TEST], parts=[_pt1, _pt2])
 '''
 
 
@@ -39,12 +44,12 @@ def read_input(caller=None):
 @with_caller
 def input_lines(
     caller,
-    other_inputs=[],
+    tests=[],
     parts=[],
     transform_lines=lambda g: g,
     transform_line=lambda l: l,
 ):
-    inputs = other_inputs + [read_input(caller)]
+    inputs = tests + [read_input(caller)]
     results = []
 
     for part in parts:
@@ -58,13 +63,13 @@ def input_lines(
 @with_caller
 def input_groups(
     caller,
-    other_inputs=[],
+    tests=[],
     parts=[],
     transform_groups=lambda g: g,
     transform_group=lambda g: g,
     sep="\n\n",
 ):
-    inputs = other_inputs + [read_input(caller)]
+    inputs = tests + [read_input(caller)]
     results = []
 
     for part in parts:

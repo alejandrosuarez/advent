@@ -666,7 +666,7 @@ def _transform(g):
 
 def main():
     return afs.input_groups(
-        other_inputs=[TEST],
+        tests=[TEST],
         parts=[_pt1, _pt2],
         transform_group=_transform,
     )

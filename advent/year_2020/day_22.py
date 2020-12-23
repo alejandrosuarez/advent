@@ -412,20 +412,6 @@ Both parts of this puzzle are complete! They provide two gold stars: **
 
 from advent.tools import *
 
-TEST = """Player 1:
-9
-2
-6
-3
-1
-
-Player 2:
-5
-8
-4
-7
-10"""
-
 
 def _winning_score(p1, p2):
     return sum(c * (i + 1) for i, c in enumerate(list(p1 or p2)[::-1]))
@@ -492,11 +478,26 @@ def _pt2(groups):
     return _winning_score(*_game(*groups))
 
 
+TEST = """Player 1:
+9
+2
+6
+3
+1
+
+Player 2:
+5
+8
+4
+7
+10"""
+
+
 def main():
     tr = lambda g: cl.deque(list(map(int, g.splitlines()[1:])))
 
     return afs.input_groups(
-        other_inputs=[TEST],
+        tests=[TEST],
         parts=[_pt1, _pt2],
         transform_group=tr,
     )

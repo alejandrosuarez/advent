@@ -70,5 +70,5 @@ def main():
     return afs.input_lines(
         transform_line=int,
         parts=[pt1, pt2],
-        other_inputs=[TEST],
+        tests=[TEST],
     )

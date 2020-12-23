@@ -190,6 +190,6 @@ def _transform(line):
 def main():
     return afs.input_lines(
         parts=[_pt1, _pt2],
-        other_inputs=[TEST],
+        tests=[TEST],
         transform_line=_transform,
     )

@@ -256,7 +256,7 @@ aabbbbbaabbbaaaaaabbbbbababaaaaabbaaabba"""
 
 def main():
     return afs.input_groups(
-        other_inputs=[TEST1, TEST2],
+        tests=[TEST1, TEST2],
         parts=[_pt1, _pt2],
         transform_groups=lambda g: (g[0], g[1].splitlines()),
     )

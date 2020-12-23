@@ -148,7 +148,7 @@ TEST2 = """1 + 2 * 3 + 4 * 5 + 6
 
 def main():
     return afs.input_lines(
-        other_inputs=[TEST1, TEST2],
+        tests=[TEST1, TEST2],
         parts=[_pt1, _pt2],
         transform_line=lambda l: re.sub(r"\s+", "", l),
     )

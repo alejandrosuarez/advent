@@ -96,7 +96,7 @@ def _pt2(lines):
 
 def main():
     return afs.input_lines(
-        other_inputs=[TEST],
+        tests=[TEST],
         parts=[_pt1, _pt2],
         transform_line=lambda l: list(map(int, l.split(","))),
     )

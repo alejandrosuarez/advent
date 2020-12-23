@@ -128,7 +128,7 @@ def main():
     pt2 = lambda s: sum([_pt2(g) for g in s])
 
     return afs.input_groups(
-        other_inputs=[TEST],
+        tests=[TEST],
         parts=[pt1, pt2],
         transform_group=lambda g: g.splitlines(),
     )

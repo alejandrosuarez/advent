@@ -291,7 +291,7 @@ L.LLLLL.LL"""
 
 def main():
     return afs.input_lines(
-        other_inputs=[TEST],
+        tests=[TEST],
         parts=[_pt1, _pt2],
         transform_line=lambda l: [[None, MAPPING[s]] for s in l],
     )

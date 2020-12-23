@@ -161,7 +161,7 @@ def main():
     pt2 = lambda ins: _dfs(0, 0, ins, [0] * len(ins), True)[1]
 
     return afs.input_lines(
-        other_inputs=[TEST],
+        tests=[TEST],
         parts=[pt1, pt2],
         transform_line=lambda l: l.split(" "),
     )
