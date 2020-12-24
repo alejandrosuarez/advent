@@ -8,4 +8,5 @@ import math
 import enum
 import dataclasses as dc
 import itertools as it
+import heapq as hq
 import advent.fs as afs
