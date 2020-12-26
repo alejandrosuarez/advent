@@ -129,88 +129,48 @@ Both parts of this puzzle are complete! They provide two gold stars: **
 """
 
 from advent.tools import *
-
-ARITY = {1: 2, 2: 2, 3: 1, 4: 1, 99: 0, 5: 2, 6: 2, 7: 3, 8: 3}
-
-
-def _parse_instruction(n):
-    opcode = n % 100
-    n //= 100
-    modes = [0] * ARITY[opcode]
-    i = 0
-
-    while n > 0:
-        modes[i] = n % 10
-        n //= 10
-        i += 1
-
-    return opcode, tuple(modes)
+from .vm import (
+    VM,
+    SaveInstruction,
+    AddInstruction,
+    MultiplyInstruction,
+    OutputInstruction,
+    ExitInstruction,
+    JumpIfTrueInstruction,
+    JumpIfFalseInstruction,
+    LessThanInstruction,
+    GreaterThanInstruction,
+)
 
 
-def _program(nums, inp, pt=1):
-    output = []
+def _vm(code, inp):
+    vm = VM(
+        instructions=[
+            AddInstruction,
+            ExitInstruction,
+            MultiplyInstruction,
+            SaveInstruction,
+            OutputInstruction,
+            JumpIfTrueInstruction,
+            JumpIfFalseInstruction,
+            LessThanInstruction,
+            GreaterThanInstruction,
+        ],
+        code=code,
+        local={"input": [inp]},
+    )
 
-    def read(addr, mode):
-        return addr if mode == 1 else nums[addr]
+    vm.run()
 
-    def run(i):
-        opcode, modes = _parse_instruction(nums[i])
-
-        if opcode == 99:
-            return
-        if opcode == 5:
-            ptr = read(nums[i + 1], modes[0])
-            if ptr != 0:
-                run(read(nums[i + 2], modes[1]))
-            else:
-                run(i + 3)
-        elif opcode == 6:
-            ptr = read(nums[i + 1], modes[0])
-            if ptr == 0:
-                run(read(nums[i + 2], modes[1]))
-            else:
-                run(i + 3)
-        elif opcode == 7:
-            args = nums[i + 1 : i + 4]
-            a, b = [read(n, m) for n, m in zip(args[:2], modes)]
-            c = args[-1]
-            nums[c] = int(a < b)
-            run(i + 4)
-        elif opcode == 8:
-            args = nums[i + 1 : i + 4]
-            a, b = [read(n, m) for n, m in zip(args[:2], modes)]
-            c = args[-1]
-            nums[c] = int(a == b)
-            run(i + 4)
-        elif opcode == 4:
-            output.append(nums[nums[i + 1]])
-            run(i + 2)
-        elif opcode == 3:
-            addr = nums[i + 1]
-            nums[addr] = inp
-            run(i + 2)
-        else:
-            args = nums[i + 1 : i + 4]
-            a, b = [read(n, m) for n, m in zip(args[:2], modes)]
-            p = args[-1]
-
-            if opcode == 1:
-                nums[p] = a + b
-            elif opcode == 2:
-                nums[p] = a * b
-
-            run(i + 4)
-
-    run(0)
-    return output[-1] if output else -1
+    return vm.local["output"][-1]
 
 
 def _pt1(instructions):
-    return _program(instructions, 1)
+    return _vm(instructions, 1)
 
 
 def _pt2(instructions):
-    return _program(instructions, 5, 2)
+    return _vm(instructions, 5)
 
 
 TEST1 = "3,0,4,0,99"

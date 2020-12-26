@@ -108,30 +108,26 @@ Both parts of this puzzle are complete! They provide two gold stars: **
 """
 
 from advent.tools import *
+from .vm import VM, AddInstruction, ExitInstruction, MultiplyInstruction
 
 
-def _program(nums, noun, verb):
-    nums[1], nums[2] = noun, verb
+def _vm(code, noun, verb):
+    code[1], code[2] = noun, verb
+    vm = VM(
+        instructions=[
+            AddInstruction,
+            ExitInstruction,
+            MultiplyInstruction,
+        ],
+        code=code,
+    )
+    vm.run()
 
-    def run(i):
-        if nums[i] == 99:
-            return
-
-        a, b, p = nums[i + 1 : i + 4]
-
-        if nums[i] == 1:
-            nums[p] = nums[a] + nums[b]
-        else:
-            nums[p] = nums[a] * nums[b]
-
-        run(i + 4)
-
-    run(0)
-    return nums[0]
+    return vm.code[0]
 
 
 def _pt1(lines):
-    return _program(lines, 12, 2)
+    return _vm(lines, 12, 2)
 
 
 def _pt2(lines):
@@ -139,7 +135,7 @@ def _pt2(lines):
 
     for n in range(100):
         for v in range(100):
-            result = _program(lines[:], n, v)
+            result = _vm(lines[:], n, v)
 
             if result == k:
                 return 100 * n + v
