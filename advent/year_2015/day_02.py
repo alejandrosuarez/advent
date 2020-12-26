@@ -61,6 +61,8 @@ def _pt2(lines):
 TEST = """2x3x4
 1x1x10"""
 
+ANSWERS = [101, 1586300, 48, 3737498]
+
 
 def main():
     return afs.input_lines(
