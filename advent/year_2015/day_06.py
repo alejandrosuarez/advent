@@ -68,32 +68,46 @@ def _parse(line):
     )
 
 
-def _apply(grid, cmd):
-    for y in range(cmd.start[0], cmd.end[0]):
-        for x in range(cmd.start[1], cmd.end[1]):
-            if cmd.instruction == "toggle":
-                grid[x][y] ^= 1
-            elif cmd.instruction == "turn off":
-                grid[x][y] = 0
-            elif cmd.instruction == "turn on":
-                grid[x][y] = 1
-            else:
-                raise ValueError(cmd.instruction)
-
-
 def _pt1(lines):
     size = 1000
     grid = [[0 for _ in range(size)] for _ in range(size)]
 
-    for ins in map(_parse, lines):
-        _apply(grid, ins)
+    for cmd in map(_parse, lines):
+        for c in range(cmd.start[0], cmd.end[0]):
+            for r in range(cmd.start[1], cmd.end[1]):
+                if cmd.instruction == "toggle":
+                    grid[r][c] ^= 1
+                elif cmd.instruction == "turn off":
+                    grid[r][c] = 0
+                elif cmd.instruction == "turn on":
+                    grid[r][c] = 1
+                else:
+                    raise ValueError(cmd.instruction)
 
     return sum(r.count(1) for r in grid)
 
 
 def _pt2(lines):
-    pass
+    size = 1000
+    grid = [[0 for _ in range(size)] for _ in range(size)]
+
+    for cmd in map(_parse, lines):
+        for c in range(cmd.start[0], cmd.end[0]):
+            for r in range(cmd.start[1], cmd.end[1]):
+                if cmd.instruction == "toggle":
+                    grid[r][c] += 2
+                elif cmd.instruction == "turn off":
+                    grid[r][c] = max(0, grid[r][c] - 1)
+                elif cmd.instruction == "turn on":
+                    grid[r][c] += 1
+                else:
+                    raise ValueError(cmd.instruction)
+
+    return sum(map(sum, grid))
+
+
+ANSWERS = [543903, 14687245]
 
 
 def main():
-    return afs.input_lines(tests=[], parts=[_pt1], run_input=True)
+    return afs.input_lines(tests=[], parts=[_pt1, _pt2], run_input=True)
