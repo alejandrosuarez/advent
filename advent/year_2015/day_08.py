@@ -20,8 +20,6 @@ For example, given the four strings above, the total number of characters of str
 
 Your puzzle answer was 1371.
 
-The first half of this puzzle is complete! It provides one gold star: *
-
 --- Part Two ---
 Now, let's go the other way. In addition to finding the number of characters of code, you should now encode each code representation as a new string and find the number of characters of the new encoded representation, including the surrounding double quotes.
 
@@ -33,10 +31,13 @@ For example:
 "\x27" encodes to "\"\\x27\"", an increase from 6 characters to 11.
 Your task is to find the total number of characters to represent the newly encoded strings minus the number of characters of code in each original string literal. For example, for the strings above, the total encoded length (6 + 9 + 16 + 11 = 42) minus the characters in the original code representation (23, just like in the first part of this puzzle) is 42 - 23 = 19.
 
-Answer: 
- 
+Your puzzle answer was 2117.
 
-Although it hasn't changed, you can still get your puzzle input.
+Both parts of this puzzle are complete! They provide two gold stars: **
+
+At this point, you should return to your Advent calendar and try another puzzle.
+
+If you still want to see it, you can get your puzzle input.
 
 You can also [Share] this puzzle.
 """
@@ -64,6 +65,17 @@ def _parse(line):
 
     return val_count
 
+def _encode(line):
+    encoded = ["\""]
+    for tok in line:
+        match tok:
+            case "\"" | "\\" | r"\x":
+                encoded.append(f"\{tok}")
+            case _:
+                encoded.append(tok)
+    encoded.append("\"")
+    return ''.join(encoded)
+
 
 def _pt1(lines):
     total_code_count = total_val_count = 0
@@ -75,7 +87,12 @@ def _pt1(lines):
 
 
 def _pt2(lines):
-    pass
+    new_code_count = old_code_count = 0
+    for line in lines:
+        encoded = _encode(line)
+        new_code_count += len(encoded)
+        old_code_count += len(line)
+    return new_code_count - old_code_count
 
 
 TEST = r"""""
@@ -83,8 +100,8 @@ TEST = r"""""
 "aaa\"aaa"
 "\x27"
 """
-ANSWERS = [12, 1371]
+ANSWERS = [12, 1371, 19, 2117]
 
 
 def main():
-    return afs.input_lines(tests=[TEST], parts=[_pt1], run_input=True)
+    return afs.input_lines(tests=[TEST], parts=[_pt1, _pt2], run_input=True)
