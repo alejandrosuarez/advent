@@ -36,10 +36,18 @@ x: 123
 y: 456
 In little Bobby's kit's instructions booklet (provided as your puzzle input), what signal is ultimately provided to wire a?
 
-To begin, get your puzzle input.
+Your puzzle answer was 956.
 
-Answer: 
- 
+--- Part Two ---
+Now, take the signal you got on wire a, override wire b to that signal, and reset the other wires (including wire a). What new signal is ultimately provided to wire a?
+
+Your puzzle answer was 40149.
+
+Both parts of this puzzle are complete! They provide two gold stars: **
+
+At this point, you should return to your Advent calendar and try another puzzle.
+
+If you still want to see it, you can get your puzzle input.
 
 You can also [Share] this puzzle.
 """
@@ -47,9 +55,9 @@ You can also [Share] this puzzle.
 from advent.tools import *
 
 INT_MAX = 65535
-ANSWERS = [None, 956]
+ANSWERS = [None, 956, None, 40149]
 
-def _solve(lines, src):
+def _solve(lines, src, overrides = {}):
     def eval_(*tokens):
         if tokens in memo:
             return memo[tokens]
@@ -78,6 +86,8 @@ def _solve(lines, src):
 
     for expr, wire in lines:
         graph[wire] = expr.split(" ")
+    for wire, override in overrides.items():
+        graph[wire] = override
 
     return eval_(src)
 
@@ -87,7 +97,7 @@ def _pt1(lines):
 
 
 def _pt2(lines):
-    pass
+    return _solve(lines, "a", overrides={'b': ['956']})
 
 
 TEST = """123 -> x
@@ -103,7 +113,7 @@ NOT y -> i
 
 def main():
     return afs.input_lines(
-        tests=[TEST], parts=[_pt1], run_input=True, transform_line=_transform_line
+        tests=[TEST], parts=[_pt1, _pt2], run_input=True, transform_line=_transform_line
     )
 
 
