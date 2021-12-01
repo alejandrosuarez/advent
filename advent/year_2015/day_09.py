@@ -25,44 +25,21 @@ What is the distance of the shortest route?
 from advent.tools import *
 
 
-def _dfs(start, graph):
-    total_dist = 0
-    stack = [(0, start)]
-    seen = set()
-
-    while stack:
-        dist, cur = stack.pop()
-
-        if cur in seen:
-            continue
-
-        seen.add(cur)
-        total_dist += dist
-
-        for nei_dist, nei in graph[cur]:
-            if nei in seen:
-                continue
-
-            stack.append((nei_dist, nei))
-
-    return total_dist, seen
-
-
 def _pt1(lines):
-    graph = cl.defaultdict(set)
-    all_cities = set()
+    """
+    at first thought this was a minimum spanning tree problem,
+    but its traveling salesman cuz were dealing with a path :(
+    """
+
+    graph = cl.defaultdict(dict)
     min_dist = float("inf")
 
-    for line in lines:
-        src, dest, dist = re.match(r"(\w+) to (\w+) = (\d+)", line).groups()
-        dist = int(dist)
-        graph[src].add((dist, dest))
-        all_cities |= {src, dest}
+    for src, dest, dist in lines:
+        graph[src][dest] = graph[dest][src] = dist
 
-    for start in list(graph.keys()):
-        dist, seen = _dfs(start, graph)
-        if not (seen ^ all_cities):
-            min_dist = min(dist, min_dist)
+    for path in it.permutations(graph.keys()):
+        dist = sum(graph[src][dest] for src, dest in zip(path[:-1], path[1:]))
+        min_dist = min(dist, min_dist)
 
     return min_dist
 
@@ -75,7 +52,16 @@ TEST = """London to Dublin = 464
 London to Belfast = 518
 Dublin to Belfast = 141
 """
+ANSWERS = [605, 141]
+
+
+def _transform_line(line):
+    src, dest, dist = re.match(r"(\w+) to (\w+) = (\d+)", line).groups()
+    dist = int(dist)
+    return src, dest, dist
 
 
 def main():
-    return afs.input_lines(tests=[TEST], parts=[_pt1], run_input=True)
+    return afs.input_lines(
+        tests=[TEST], parts=[_pt1], run_input=True, transform_line=_transform_line
+    )
