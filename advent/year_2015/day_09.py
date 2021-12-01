@@ -20,9 +20,37 @@ Belfast -> London -> Dublin = 982
 The shortest of these is London -> Dublin -> Belfast = 605, and so the answer is 605 in this example.
 
 What is the distance of the shortest route?
+
+Your puzzle answer was 141.
+
+The first half of this puzzle is complete! It provides one gold star: *
+
+--- Part Two ---
+The next year, just to show off, Santa decides to take the route with the longest distance instead.
+
+He can still start and end at any two (different) locations he wants, and he still must visit each location exactly once.
+
+For example, given the distances above, the longest route would be 982 via (for example) Dublin -> London -> Belfast.
+
+What is the distance of the longest route?
+
+Your puzzle answer was 736.
+
+Both parts of this puzzle are complete! They provide two gold stars: **
 """
 
 from advent.tools import *
+
+
+def _traveling_salesman(lines):
+    graph = cl.defaultdict(dict)
+
+    for src, dest, dist in lines:
+        graph[src][dest] = graph[dest][src] = dist
+
+    for path in it.permutations(graph.keys()):
+        dist = sum(graph[src][dest] for src, dest in zip(path[:-1], path[1:]))
+        yield dist
 
 
 def _pt1(lines):
@@ -31,28 +59,18 @@ def _pt1(lines):
     but its traveling salesman cuz were dealing with a path :(
     """
 
-    graph = cl.defaultdict(dict)
-    min_dist = float("inf")
-
-    for src, dest, dist in lines:
-        graph[src][dest] = graph[dest][src] = dist
-
-    for path in it.permutations(graph.keys()):
-        dist = sum(graph[src][dest] for src, dest in zip(path[:-1], path[1:]))
-        min_dist = min(dist, min_dist)
-
-    return min_dist
+    return min(_traveling_salesman(lines))
 
 
 def _pt2(lines):
-    pass
+    return max(_traveling_salesman(lines))
 
 
 TEST = """London to Dublin = 464
 London to Belfast = 518
 Dublin to Belfast = 141
 """
-ANSWERS = [605, 141]
+ANSWERS = [605, 141, 982, 736]
 
 
 def _transform_line(line):
@@ -63,5 +81,5 @@ def _transform_line(line):
 
 def main():
     return afs.input_lines(
-        tests=[TEST], parts=[_pt1], run_input=True, transform_line=_transform_line
+        tests=[TEST], parts=[_pt1, _pt2], run_input=True, transform_line=_transform_line
     )
