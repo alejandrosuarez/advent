@@ -21,22 +21,26 @@ The first half of this puzzle is complete! It provides one gold star: *
 Neat, right? You might also enjoy hearing John Conway talking about this sequence (that's Conway of Conway's Game of Life fame).
 
 Now, starting again with the digits in your puzzle input, apply this process 50 times. What is the length of the new result?
+Your puzzle answer was 5103798.
+
+Both parts of this puzzle are complete! They provide two gold stars: **
 """
 
 from advent.tools import *
 
 
-def _pt1(lines):
-    inp = lines[0]
-
-    for _ in range(40):
+def _look_and_say(n, inp):
+    for _ in range(n):
         inp = "".join(str(len(list(g))) + x for x, g in it.groupby(inp))
+    return inp
 
-    return len(inp)
+
+def _pt1(lines):
+    return len(_look_and_say(40, lines[0]))
 
 
 def _pt2(lines):
-    pass
+    return len(_look_and_say(50, lines[0]))
 
 
 TEST = """111221
@@ -45,4 +49,4 @@ ANSWERS = [237746, 360154]
 
 
 def main():
-    return afs.input_lines(tests=[TEST], parts=[_pt1], run_input=True)
+    return afs.input_lines(tests=[TEST], parts=[_pt1, _pt2], run_input=True)
