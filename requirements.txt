@@ -9,3 +9,5 @@ matplotlib
 lark
 scipy
 pytest-xdist
+geos
+isort

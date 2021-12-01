@@ -24,8 +24,9 @@ Your puzzle answer was 1038736.
 Both parts of this puzzle are complete! They provide two gold stars: **
 """
 
-from advent.tools import *
 from hashlib import md5
+
+from advent.tools import *
 
 
 def _mine(secret, prefix):

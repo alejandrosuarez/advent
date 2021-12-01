@@ -112,6 +112,7 @@ Both parts of this puzzle are complete! They provide two gold stars: **
 """
 
 from __future__ import annotations
+
 from advent.tools import *
 
 

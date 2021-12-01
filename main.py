@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
 from sys import argv
-from advent.fs import run, generate
+
+from advent.fs import generate, run
 
 
 def main():

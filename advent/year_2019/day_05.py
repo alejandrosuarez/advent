@@ -129,18 +129,11 @@ Both parts of this puzzle are complete! They provide two gold stars: **
 """
 
 from advent.tools import *
-from .vm import (
-    VM,
-    SaveInstruction,
-    AddInstruction,
-    MultiplyInstruction,
-    OutputInstruction,
-    ExitInstruction,
-    JumpIfTrueInstruction,
-    JumpIfFalseInstruction,
-    LessThanInstruction,
-    GreaterThanInstruction,
-)
+
+from .vm import (VM, AddInstruction, ExitInstruction, GreaterThanInstruction,
+                 JumpIfFalseInstruction, JumpIfTrueInstruction,
+                 LessThanInstruction, MultiplyInstruction, OutputInstruction,
+                 SaveInstruction)
 
 
 def _vm(code, inp):

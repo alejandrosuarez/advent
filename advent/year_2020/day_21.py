@@ -57,9 +57,10 @@ Your puzzle answer was dhfng,pgblcd,xhkdc,ghlzj,dstct,nqbnmzx,ntggc,znrzgs.
 Both parts of this puzzle are complete! They provide two gold stars: **
 """
 
-from advent.tools import *
 from scipy.sparse import csr_matrix
 from scipy.sparse.csgraph import maximum_bipartite_matching as match
+
+from advent.tools import *
 
 
 def _build_matrix(lists):

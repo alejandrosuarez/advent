@@ -421,10 +421,11 @@ Your puzzle answer was 1936.
 Both parts of this puzzle are complete! They provide two gold stars: **
 """
 
-from advent.tools import *
-from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
+from mpl_toolkits.mplot3d import Axes3D
+
+from advent.tools import *
 
 TEST = """.#.
 ..#

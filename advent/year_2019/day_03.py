@@ -88,7 +88,9 @@ Your puzzle answer was 101386.
 Both parts of this puzzle are complete! They provide two gold stars: **
 """
 
-from shapely.geometry import LineString as Line, Point
+from shapely.geometry import LineString as Line
+from shapely.geometry import Point
+
 from advent.tools import *
 
 UP, DOWN, RIGHT, LEFT = "U", "D", "R", "L"

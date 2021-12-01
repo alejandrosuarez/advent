@@ -163,6 +163,7 @@ Both parts of this puzzle are complete! They provide two gold stars: **
 """
 
 from lark import Lark, exceptions
+
 from advent.tools import *
 
 

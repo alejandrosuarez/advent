@@ -1,12 +1,15 @@
 import collections as cl
-import re
-import numpy as np
-import typing as t
-import functools as ft
 import copy as cp
-import math
-import enum
 import dataclasses as dc
-import itertools as it
+import enum
+import functools as ft
 import heapq as hq
+import itertools as it
+import math
+import operator as op
+import re
+import typing as t
+
+import numpy as np
+
 import advent.fs as afs

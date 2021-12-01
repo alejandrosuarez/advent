@@ -1,5 +1,5 @@
-from os import path, system
 from inspect import stack
+from os import path, system
 from re import sub
 
 TMPL = '''"""

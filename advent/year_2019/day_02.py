@@ -108,6 +108,7 @@ Both parts of this puzzle are complete! They provide two gold stars: **
 """
 
 from advent.tools import *
+
 from .vm import VM, AddInstruction, ExitInstruction, MultiplyInstruction
 
 

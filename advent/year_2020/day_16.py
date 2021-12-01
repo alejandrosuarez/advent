@@ -114,8 +114,9 @@ build logic using this graph
 sat solve to assign cols to field names
 """
 
-from advent.tools import *
 from pysat.solvers import Maplesat as Solver
+
+from advent.tools import *
 
 START, END, QUERY = 0, 2, 1
 
