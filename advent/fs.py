@@ -18,6 +18,7 @@ def _pt2(lines):
 
 TEST = """
 """
+ANSWERS = None
 
 
 def main():
