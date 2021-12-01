@@ -52,7 +52,7 @@ def _parse(line):
         if i >= len(line):
             break
 
-        match line[i:i+2]:
+        match line[i : i + 2]:
             case r"\x":
                 i += 4
                 val_count += 1
@@ -65,16 +65,17 @@ def _parse(line):
 
     return val_count
 
+
 def _encode(line):
-    encoded = ["\""]
+    encoded = ['"']
     for tok in line:
         match tok:
-            case "\"" | "\\" | r"\x":
+            case '"' | "\\" | r"\x":
                 encoded.append(f"\{tok}")
             case _:
                 encoded.append(tok)
-    encoded.append("\"")
-    return ''.join(encoded)
+    encoded.append('"')
+    return "".join(encoded)
 
 
 def _pt1(lines):

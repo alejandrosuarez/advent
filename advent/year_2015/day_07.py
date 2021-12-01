@@ -57,21 +57,22 @@ from advent.tools import *
 INT_MAX = 65535
 ANSWERS = [None, 956, None, 40149]
 
-def _solve(lines, src, overrides = {}):
+
+def _solve(lines, src, overrides={}):
     def eval_(*tokens):
         if tokens in memo:
             return memo[tokens]
         result = None
         match tokens:
-            case [a, 'AND', b]:
+            case [a, "AND", b]:
                 result = eval_(a) & eval_(b)
-            case [a, 'OR', b]:
+            case [a, "OR", b]:
                 result = eval_(a) | eval_(b)
-            case ['NOT', a]:
+            case ["NOT", a]:
                 result = INT_MAX - eval_(a)
-            case [a, 'LSHIFT', b]:
+            case [a, "LSHIFT", b]:
                 result = eval_(a) << eval_(b)
-            case [a, 'RSHIFT', b]:
+            case [a, "RSHIFT", b]:
                 result = eval_(a) >> eval_(b)
             case [a]:
                 if a.isnumeric():
@@ -97,7 +98,7 @@ def _pt1(lines):
 
 
 def _pt2(lines):
-    return _solve(lines, "a", overrides={'b': ['956']})
+    return _solve(lines, "a", overrides={"b": ["956"]})
 
 
 TEST = """123 -> x
