@@ -1,6 +1,6 @@
 from inspect import stack
 from os import path, system
-from re import sub
+from re import sub, match
 
 TMPL = '''"""
 """
@@ -98,6 +98,10 @@ def run(year, day):
     mod = __import__(f"advent.{y}.{d}")
     day = getattr(getattr(mod, y), d)
     return day.main()
+
+
+def run_file(path):
+    return run(*match(r"^.*/advent/year_(\d+)/day_(\d+).py", path).groups())
 
 
 def generate(year, day):
