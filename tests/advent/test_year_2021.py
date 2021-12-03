@@ -7,3 +7,7 @@ def test_day_01():
 
 def test_day_02():
     assert day_02.main() == day_02.ANSWERS
+
+
+def test_day_03():
+    assert day_03.main() == day_03.ANSWERS
