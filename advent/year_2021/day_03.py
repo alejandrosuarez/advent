@@ -25,7 +25,36 @@ def _pt1(lines):
 
 
 def _pt2(lines):
-    pass
+    bit_count = len(lines[0])
+    ratings = [0, 0]
+    reports = [cp.copy(lines), cp.copy(lines)]
+
+    for rating in range(2):
+        for bit in range(bit_count):
+            counts = [0, 0]
+            criteria = 0
+
+            for line in reports[rating]:
+                counts[line[bit]] += 1
+
+            if rating == 0:  # oxygen
+                criteria = (
+                    1 if min(counts) == max(counts) else counts.index(max(counts))
+                )
+            elif rating == 1:  # co2
+                criteria = (
+                    0 if min(counts) == max(counts) else counts.index(min(counts))
+                )
+            else:
+                raise ValueError(rating)
+
+            reports[rating] = [num for num in reports[rating] if num[bit] == criteria]
+
+            if len(reports[rating]) == 1:
+                ratings[rating] = int("".join(map(str, reports[rating][0])), 2)
+                break
+
+    return math.prod(ratings)
 
 
 TEST = """00100
@@ -41,13 +70,13 @@ TEST = """00100
 00010
 01010
 """
-ANSWERS = [198, 845186]
+ANSWERS = [198, 845186, 230, 4636702]
 
 
 def main():
     return afs.input_lines(
         tests=[TEST],
-        parts=[_pt1],
+        parts=[_pt1, _pt2],
         run_input=True,
         transform_line=lambda l: list(map(int, list(l))),
     )
