@@ -66,33 +66,57 @@ You aren't sure how many bingo boards a giant squid could play at once, so rathe
 In the above example, the second board is the last to win, which happens after 13 is eventually called and its middle column is completely marked. If you were to keep playing until this point, the second board would have a sum of unmarked numbers equal to 148 for a final score of 148 * 13 = 1924.
 
 Figure out which board will win last. Once it wins, what would its final score be?
+
+Your puzzle answer was 2730.
+
+Both parts of this puzzle are complete! They provide two gold stars: **
 """
 
 from advent.tools import *
 
 
-def _pt1(inp):
-    numbers, locations, boards = inp
+def _each_hit(numbers, locations, boards):
     marked = [[[0 for _ in range(5)] for _ in range(5)] for _ in range(len(boards))]
     remaining_in_row = [[5 for _ in range(5)] for _ in range(len(boards))]
     remaining_in_col = [[5 for _ in range(5)] for _ in range(len(boards))]
-
     for num in numbers:
         for board, row, col in locations.get(num, []):
             marked[board][row][col] = 1
             remaining_in_col[board][col] -= 1
             remaining_in_row[board][row] -= 1
-            if remaining_in_col[board][col] == 0 or remaining_in_row[board][row] == 0:
-                unmarked_sum = 0
-                for r in range(5):
-                    for c in range(5):
-                        if not marked[board][r][c]:
-                            unmarked_sum += boards[board][r][c]
-                return unmarked_sum * num
+            yield num, board, remaining_in_row[board][row], remaining_in_col[board][
+                col
+            ], marked
 
 
-def _pt2(lines):
-    pass
+def _sum_unmarked(board, marked, boards):
+    unmarked_sum = 0
+    for r in range(5):
+        for c in range(5):
+            if not marked[board][r][c]:
+                unmarked_sum += boards[board][r][c]
+    return unmarked_sum
+
+
+def _pt1(inp):
+    numbers, locations, boards = inp
+    for num, board, remaining_in_row, remaining_in_col, marked in _each_hit(
+        numbers, locations, boards
+    ):
+        if remaining_in_col == 0 or remaining_in_row == 0:
+            return _sum_unmarked(board, marked, boards) * num
+
+
+def _pt2(inp):
+    numbers, locations, boards = inp
+    winners = set()
+    for num, board, remaining_in_row, remaining_in_col, marked in _each_hit(
+        numbers, locations, boards
+    ):
+        if remaining_in_col == 0 or remaining_in_row == 0:
+            winners.add(board)
+            if len(winners) == len(boards):
+                return _sum_unmarked(board, marked, boards) * num
 
 
 TEST = """7,4,9,5,11,17,23,2,0,14,21,24,10,16,13,6,15,25,12,22,18,20,8,19,3,26,1
@@ -134,5 +158,5 @@ def _transform_groups(groups):
 
 def main():
     return afs.input_groups(
-        tests=[TEST], parts=[_pt1], transform_groups=_transform_groups
+        tests=[TEST], parts=[_pt1, _pt2], transform_groups=_transform_groups
     )
