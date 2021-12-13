@@ -9,6 +9,7 @@ import math
 import operator as op
 import random as rnd
 import re
+import statistics as stats
 import typing as t
 from uuid import uuid4 as uuid
 
