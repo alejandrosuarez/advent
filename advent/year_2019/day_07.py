@@ -3,18 +3,10 @@
 
 from advent.tools import *
 
-from .vm import (
-    VM,
-    AddInstruction,
-    ExitInstruction,
-    GreaterThanInstruction,
-    JumpIfFalseInstruction,
-    JumpIfTrueInstruction,
-    LessThanInstruction,
-    MultiplyInstruction,
-    OutputInstruction,
-    SaveInstruction,
-)
+from .vm import (VM, AddInstruction, ExitInstruction, GreaterThanInstruction,
+                 JumpIfFalseInstruction, JumpIfTrueInstruction,
+                 LessThanInstruction, MultiplyInstruction, OutputInstruction,
+                 SaveInstruction)
 
 
 def _run(code, input_signal, phase_setting):

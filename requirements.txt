@@ -3,11 +3,11 @@ numpy
 pytest
 mypy
 pylint
-shapely
+shapely>=1.8
+sortedcontainers
 python-sat
 matplotlib
 lark
 scipy
 pytest-xdist
-geos
 isort

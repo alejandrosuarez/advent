@@ -7,10 +7,13 @@ import heapq as hq
 import itertools as it
 import math
 import operator as op
+import random as rnd
 import re
 import typing as t
-import random as rnd
+from uuid import uuid4 as uuid
 
 import numpy as np
+import sortedcontainers as sc
+from shapely import geometry as geo
 
 import advent.fs as afs

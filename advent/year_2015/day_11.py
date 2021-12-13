@@ -1,9 +1,9 @@
 """
 """
 
-from advent.tools import *
-
 import string
+
+from advent.tools import *
 
 ALPHABET = list(string.ascii_lowercase)
 STRAIGHTS = ["".join(s) for s in zip(ALPHABET, ALPHABET[1:], ALPHABET[2:])]

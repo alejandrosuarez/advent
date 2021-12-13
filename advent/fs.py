@@ -1,6 +1,6 @@
 from inspect import stack
 from os import path, system
-from re import sub, match
+from re import match, sub
 
 TMPL = '''"""
 """
