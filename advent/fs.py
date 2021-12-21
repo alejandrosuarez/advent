@@ -75,8 +75,9 @@ def input_groups(
     transform_groups=lambda g: g,
     transform_group=lambda g: g,
     sep="\n\n",
+    run_input=True,
 ):
-    inputs = tests + [read_input(caller)]
+    inputs = tests + ([read_input(caller)] if run_input else [])
     results = []
 
     for part in parts:
