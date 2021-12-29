@@ -110,7 +110,7 @@ def _pp(node):
     )
 
 
-def _pt1(lines):
+def _find_magnitude(lines):
     prev = lines[0]
     for expr in lines[1:]:
         node = Node(depth=0)
@@ -124,8 +124,18 @@ def _pt1(lines):
     return node.magnitude()
 
 
+def _pt1(lines):
+    return _find_magnitude(lines)
+
+
 def _pt2(lines):
-    pass
+    max_mag = float("-inf")
+    for a in lines:
+        for b in lines:
+            if a == b:
+                continue
+            max_mag = max(max_mag, _find_magnitude([a, b]))
+    return max_mag
 
 
 TEST = """[[[0,[5,8]],[[1,7],[9,6]]],[[4,[1,2]],[[1,4],2]]]
@@ -175,7 +185,7 @@ TEST11 = """[[[0,[4,5]],[0,0]],[[[4,5],[2,6]],[9,5]]]
 TEST12 = """[[[[7,7],[7,7]],[[8,7],[8,7]]],[[[7,0],[7,7]],9]]
 [[[[4,2],2],6],[8,7]]
 """
-ANSWERS = None
+ANSWERS = [4140, 3551, 3993, 4555]
 
 
 def main():
@@ -184,7 +194,7 @@ def main():
 
     return afs.input_lines(
         tests=[TEST],
-        parts=[_pt1],
+        parts=[_pt1, _pt2],
         run_input=True,
         transform_line=eval,
     )
