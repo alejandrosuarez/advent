@@ -67,3 +67,7 @@ def test_day_16():
 
 def test_day_17():
     assert day_17.main() == day_17.ANSWERS
+
+
+def test_day_18():
+    assert day_18.main() == day_18.ANSWERS

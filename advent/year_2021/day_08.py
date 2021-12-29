@@ -2,6 +2,7 @@
 """
 
 from re import L
+
 from advent.tools import *
 
 

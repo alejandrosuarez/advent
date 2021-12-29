@@ -11,3 +11,4 @@ lark
 scipy
 pytest-xdist
 isort
+pptree
