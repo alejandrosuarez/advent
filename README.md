@@ -6,6 +6,8 @@
 
 ## usage
 
+open Run On Save in Output tab
+
 ```zsh
 # run day 2 from 2020
 ./main.py run 2020 02
