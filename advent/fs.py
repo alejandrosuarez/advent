@@ -22,7 +22,11 @@ ANSWERS = None
 
 
 def main():
-    return afs.input_lines(tests=[TEST], parts=[_pt1, _pt2])
+    return afs.input_lines(
+        tests=[TEST],
+        parts=[_pt1, _pt2],
+        run_input=False,
+    )
 
 '''
 
