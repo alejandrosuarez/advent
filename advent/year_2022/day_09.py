@@ -5,7 +5,72 @@ from advent.tools import *
 
 
 def _pt1(lines):
-    pass
+    x = y = 0
+    tx = ty = 0
+    seen = set()
+    grid = np.chararray((10, 10), unicode=True)
+    grid[:] = "."
+
+    def printgrid(grid):
+        for row in grid:
+            print("".join(row))
+
+    def move(dist, dx, dy):
+        nonlocal x, y, tx, ty
+        for _ in range(dist):
+            x += dx
+            y += dy
+            match (x - tx, y - ty):
+                case (0, 0):
+                    pass
+                case (0, 2):
+                    ty += 1
+                case (0, -2):
+                    ty -= 1
+                case (2, 0):
+                    tx += 1
+                case (-2, 0):
+                    tx -= 1
+                case (2, 1):
+                    tx += 1
+                    ty += 1
+                case (1, 2):
+                    tx += 1
+                    ty += 1
+                case (-2, -1):
+                    tx -= 1
+                    ty -= 1
+                case (-1, -2):
+                    tx -= 1
+                    ty -= 1
+                case (-2, 1):
+                    tx -= 1
+                    ty += 1
+                case (-1, 2):
+                    tx -= 1
+                    ty += 1
+                case (2, -1):
+                    tx += 1
+                    ty -= 1
+                case (1, -2):
+                    tx += 1
+                    ty -= 1
+
+            t = (tx, ty)
+            seen.add(t)
+
+    for d, dist in lines:
+        match d:
+            case "R":
+                move(dist, 1, 0)
+            case "L":
+                move(dist, -1, 0)
+            case "U":
+                move(dist, 0, 1)
+            case "D":
+                move(dist, 0, -1)
+
+    return len(seen)
 
 
 def _pt2(lines):

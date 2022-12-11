@@ -12,3 +12,4 @@ scipy
 pytest-xdist
 isort
 pptree
+devtools
