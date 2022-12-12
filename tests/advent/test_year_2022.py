@@ -27,3 +27,23 @@ def test_day_06():
 
 def test_day_07():
     assert day_07.main() == day_07.ANSWERS
+
+
+def test_day_08():
+    assert day_08.main() == day_08.ANSWERS
+
+
+def test_day_09():
+    assert day_09.main() == day_09.ANSWERS
+
+
+def test_day_10():
+    assert day_10.main() == day_10.ANSWERS
+
+
+def test_day_11():
+    assert day_11.main() == day_11.ANSWERS
+
+
+def test_day_12():
+    assert day_12.main() == day_12.ANSWERS
