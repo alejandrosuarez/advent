@@ -61,22 +61,21 @@ Both parts of this puzzle are complete! They provide two gold stars: **
 from advent.tools import *
 
 
-def dijkstra(grid, start, end):
-    dist = cl.defaultdict(lambda: float("inf"))
-    pq = [(0, start)]
-    while pq:
-        d, (r, c) = hq.heappop(pq)
-        if d > dist[(r, c)]:
-            continue
+def bfs(grid, start, end):
+    dist = cl.defaultdict(int)
+    q = cl.deque([(0, start)])
+    while q:
+        d, (r, c) = q.popleft()
+        if (r, c) == end:
+            return d
         for nr, nc in util.grid_neighbors(r, c, grid):
             if ord(grid[nr][nc]) - ord(grid[r][c]) > 1:
                 continue
-            if (nr, nc) == end:
-                return d + 1
+            if (nr, nc) in dist:
+                continue
             nd = d + 1
-            if nd < dist[(nr, nc)]:
-                dist[(nr, nc)] = nd
-                hq.heappush(pq, (nd, (nr, nc)))
+            dist[(nr, nc)] = nd
+            q.append((nd, (nr, nc)))
 
 
 def extract_start_end(grid):
@@ -95,7 +94,7 @@ def extract_start_end(grid):
 
 def _pt1(grid):
     start, end, grid = extract_start_end(grid)
-    return dijkstra(grid, start, end)
+    return bfs(grid, start, end)
 
 
 def _pt2(grid):
@@ -105,7 +104,7 @@ def _pt2(grid):
         for c in range(len(grid[0])):
             if grid[r][c] != "a":
                 continue
-            if dist := dijkstra(grid, (r, c), end):
+            if dist := bfs(grid, (r, c), end):
                 shortest = min(shortest, dist)
     return shortest
 
